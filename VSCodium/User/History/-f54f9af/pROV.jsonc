@@ -1,0 +1,30 @@
+{
+
+"custom/pomodoro": {
+    "format": "{}",
+    "exec": "cat /tmp/pomodoro 2>/dev/null && echo ' 🍅' || echo '🍅'",
+    "signal": 8,
+    "interval": "once",
+    "on-click": "~/.config/waybar/pomodoro.sh stop",
+    "tooltip": "Click to stop"
+},
+
+"custom/pomodoro-30m": {
+    "format": "30m",
+    "on-click": "~/.config/waybar/pomodoro.sh 30m",
+    "tooltip": "Start 30 minute timer"
+},
+
+"custom/pomodoro-1h": {
+    "format": "1h",
+    "on-click": "~/.config/waybar/pomodoro.sh 1h",
+    "tooltip": "Start 1 hour timer"
+},
+
+"custom/pomodoro-2h": {
+    "format": "2h",
+    "on-click": "~/.config/waybar/pomodoro.sh 2h",
+    "tooltip": "Start 2 hour timer"
+}
+
+}

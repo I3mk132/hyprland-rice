@@ -1,0 +1,205 @@
+{
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  BAR LAYOUT
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "position": "top",
+  "modules-left":   ["group/power", "clock", "custom/salah", "custom/weather"],
+  "modules-center": ["custom/pomodoro", "custom/media", "hyprland/workspaces", "custom/notification"],
+  "modules-right":  ["bluetooth", "network", "pulseaudio", "battery"],
+
+
+  // ┌─────────────────────────────────────────
+  // │  LEFT MODULES
+  // └─────────────────────────────────────────
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  power
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "group/power": {
+    "orientation": "inherit",
+    "drawer": {
+        "transition-duration": 500,
+        "children-class": "not-power",
+        "transition-left-to-right": true // Set to true if power is on the left side
+    },
+    "modules": [
+        "custom/power", // The main button
+        "custom/lock",  // Child: lock
+        "custom/reboot",// Child: restart
+        "custom/halt"   // Child: shutdown
+    ]
+  },
+  
+  "custom/lock": {
+    "format": "󰌾",
+    "tooltip": false,
+    "on-click": "hyprlock" // or your preferred locker
+  },
+
+  "custom/reboot": {
+    "format": "󰜉",
+    "tooltip": false,
+    "on-click": "reboot"
+  },
+
+  "custom/halt": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "shutdown now"
+  },
+
+  "custom/power": {
+    "format": "",
+    "tooltip": false
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  clock
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "clock": {
+    "format":         "   {:%a %d %H:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  salah
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "custom/salah": {
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  weather
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "custom/weather": {
+  },
+
+
+  // ┌─────────────────────────────────────────
+  // │  CENTER MODULES
+  // └─────────────────────────────────────────
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  pomodoro
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "custom/pomodoro": {
+    "exec": "~/.config/waybar/scripts/pomodoro.sh status",
+    "interval": 5,
+    "return-type": "json",
+    "on-click": "~/.config/waybar/scripts/pomodoro.sh menu",
+    "on-click-right": "~/.config/waybar/scripts/pomodoro.sh stop",
+    "on-scroll-up": "~/.config/waybar/scripts/pomodoro.sh start 30",
+    "on-scroll-down": "~/.config/waybar/scripts/pomodoro.sh stop",
+    "tooltip": true,
+    "format": "{}",
+    "signal": 8
+}
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  media
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "custom/media": {
+    "format": "{}",
+    "return-type": "json",
+    "max-length": 40,
+    "exec": "python ~/.config/waybar/scripts/mediaplayer.py 2> /dev/null",
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous"
+},
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  hyprland/workspaces
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "hyprland/workspaces": {
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  notification
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "custom/notification": {
+  },
+
+
+  // ┌─────────────────────────────────────────
+  // │  RIGHT MODULES
+  // └─────────────────────────────────────────
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  bluetooth
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "bluetooth": {
+    "format":                                      " {status}",
+    "format-connected":                            " {device_alias}",
+    "format-connected-battery":                    " {device_alias} {device_battery_percentage}%",
+    "tooltip-format":                              "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected":                    "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected":          "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery":  "{device_alias}\t{device_address}\t{device_battery_percentage}%"
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  network
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "network": {
+    "format-wifi":         "   {essid}",
+    "format-ethernet":     "󰤭   Disconnected",
+    "format-linked":       "{ifname} (No IP) ",
+    "format-disconnected": "   Disconnected",
+    "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  pulseaudio
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "pulseaudio": {
+    "format":       "{icon}  {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "default": ["", "", " "]
+    },
+    "on-click": "pavucontrol"
+  },
+
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  //  battery
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  "battery": {
+    "states": {
+      "warning":  30,
+      "critical": 15
+    },
+    "format":          "{icon}  {capacity}%",
+    "format-warning":  "{icon}  {capacity}%",
+    "format-critical": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged":  "  {capacity}%",
+    "format-full":     "  {capacity}%",
+    "format-alt":      "{icon}  {time}",
+    "format-icons":    ["", "", "", "", ""],
+    "tooltip-format":  "{time}"
+  }
+
+}

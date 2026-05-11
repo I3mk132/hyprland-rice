@@ -1,0 +1,604 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// style.scss — Uni Dashboard · Gruvbox Dark · AGS v3 / GTK4
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// Blur is handled by Hyprland — add to hyprland.conf:
+//   layerrule = blur, uni-dashboard
+//   layerrule = ignorezero, uni-dashboard
+//   layerrule = ignorealpha 0.1, uni-dashboard
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ── Gruvbox Dark Palette ───────────────────────────────────────────────────
+$bg0-hard:   #1d2021;
+$bg0:        #282828;
+$bg0-soft:   #32302f;
+$bg1:        #3c3836;
+$bg2:        #504945;
+$bg3:        #665c54;
+$bg4:        #7c6f64;
+$fg4:        #a89984;
+$fg3:        #bdae93;
+$fg2:        #d5c4a1;
+$fg1:        #ebdbb2;
+$fg0:        #fbf1c7;
+
+// Accent colours (bright variants)
+$red:        #fb4934;
+$green:      #b8bb26;
+$yellow:     #fabd2f;
+$blue:       #83a598;
+$purple:     #d3869b;
+$aqua:       #8ec07c;
+$orange:     #fe8019;
+
+// Semantic aliases
+$surface0:   rgba($bg0-hard,  0.92);
+$surface1:   rgba($bg1,       0.95);
+$surface2:   rgba($bg2,       0.9);
+$border:     rgba($bg3,       0.6);
+$border-hi:  rgba($aqua,      0.5);
+$text:       $fg1;
+$text-dim:   $fg4;
+$text-muted: $bg4;
+$accent:     $yellow;
+$accent2:    $orange;
+$focus-ring: rgba($aqua, 0.7);
+
+// ── Shared values ─────────────────────────────────────────────────────────
+$radius-sm:   6px;
+$radius-md:   10px;
+$radius-lg:   16px;
+$radius-xl:   22px;
+$shadow-sm:   0 2px 8px rgba(0,0,0,0.4);
+$shadow-md:   0 4px 20px rgba(0,0,0,0.55);
+$shadow-lg:   0 8px 40px rgba(0,0,0,0.65);
+
+// ── Reset / Base ──────────────────────────────────────────────────────────
+* {
+  all: unset;
+  box-sizing: border-box;
+  font-family: "JetBrains Mono", "Iosevka", "Fira Code", monospace;
+  color: $text;
+  -gtk-icon-style: symbolic;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Window & Backdrop
+// ═══════════════════════════════════════════════════════════════════════════
+
+.dashboard-window {
+  background: transparent;
+}
+
+.backdrop {
+  background: rgba($bg0-hard, 0.55);
+  // Hyprland handles the actual Gaussian blur behind this
+}
+
+// ── Dashboard card ─────────────────────────────────────────────────────────
+.dashboard-frame {
+  background: $surface0;
+  border-radius: $radius-xl;
+  border: 1px solid $border;
+  box-shadow: $shadow-lg;
+  min-width: 820px;
+  min-height: 620px;
+  padding: 0;
+  overflow: hidden;  // clip rounded corners
+}
+
+.dashboard {
+  border-radius: $radius-xl;
+  background: transparent;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Header
+// ═══════════════════════════════════════════════════════════════════════════
+
+.header {
+  padding: 18px 24px 14px;
+  background: linear-gradient(
+    135deg,
+    rgba($bg0-hard, 0.98) 0%,
+    rgba($bg1,      0.95) 100%
+  );
+  border-bottom: 1px solid $border;
+
+  .header-day {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: $accent;
+  }
+  .header-date-full {
+    font-size: 13px;
+    color: $fg3;
+    letter-spacing: 0.5px;
+  }
+  .header-view-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-dim;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    background: rgba($bg2, 0.5);
+    border-radius: $radius-sm;
+    border: 1px solid $border;
+  }
+  .header-clock {
+    font-size: 26px;
+    font-weight: 700;
+    color: $fg0;
+    letter-spacing: -1px;
+    font-variant-numeric: tabular-nums;
+  }
+  .header-seconds {
+    font-size: 12px;
+    color: $text-dim;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// View Switcher Tabs
+// ═══════════════════════════════════════════════════════════════════════════
+
+.view-switcher {
+  padding: 8px 16px 0;
+  background: rgba($bg0-hard, 0.6);
+  border-bottom: 1px solid $border;
+}
+
+.view-tab {
+  padding: 8px 12px;
+  border-radius: $radius-md $radius-md 0 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+  cursor: pointer;
+
+  .tab-icon  { font-size: 14px; color: $text-muted; }
+  .tab-label { font-size: 12px; font-weight: 600; color: $text-muted; letter-spacing: 0.5px; }
+  .tab-shortcut { font-size: 10px; color: rgba($text-muted, 0.5); }
+
+  &:hover {
+    background: rgba($bg2, 0.4);
+    .tab-label { color: $fg2; }
+  }
+
+  &--active {
+    background: $surface1;
+    border-color: $border;
+    border-bottom-color: $surface1;
+
+    .tab-icon  { color: $accent; }
+    .tab-label { color: $fg0; }
+    .tab-shortcut { color: rgba($accent, 0.6); }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// View Stack
+// ═══════════════════════════════════════════════════════════════════════════
+
+.view-stack,
+.stack-page {
+  background: transparent;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Shared section elements
+// ═══════════════════════════════════════════════════════════════════════════
+
+.section-header {
+  padding: 10px 20px 8px;
+  background: rgba($bg1, 0.6);
+  border-bottom: 1px solid $border;
+
+  .section-icon  { font-size: 14px; color: $accent;    }
+  .section-title { font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+                   text-transform: uppercase; color: $fg3; }
+  .section-count { font-size: 11px; color: $text-muted; }
+}
+
+.hint-bar {
+  padding: 6px 20px;
+  background: rgba($bg0-hard, 0.7);
+  border-top: 1px solid $border;
+
+  .hint {
+    font-size: 10px;
+    color: rgba($text-muted, 0.7);
+    letter-spacing: 0.5px;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// View 0 — Today
+// ═══════════════════════════════════════════════════════════════════════════
+
+.view-today {
+  background: transparent;
+}
+
+// ── Hero card ──────────────────────────────────────────────────────────────
+.hero-card {
+  margin: 16px 20px 0;
+  padding: 18px 20px;
+  border-radius: $radius-lg;
+  border: 1px solid $border;
+
+  &--active {
+    background: linear-gradient(
+      135deg,
+      rgba($bg1, 0.95) 0%,
+      rgba($bg0-soft, 0.9) 100%
+    );
+    border-color: rgba($yellow, 0.3);
+    box-shadow: $shadow-sm, inset 0 0 0 1px rgba($yellow, 0.08);
+  }
+
+  &--empty {
+    background: rgba($bg1, 0.5);
+    border-style: dashed;
+    padding: 24px 20px;
+
+    .hero-empty-icon  { font-size: 32px; color: $text-muted; text-align: center; }
+    .hero-empty-title { font-size: 14px; color: $fg3; text-align: center; font-weight: 600; }
+    .hero-empty-sub   { font-size: 12px; color: $text-muted; text-align: center; }
+  }
+}
+
+.hero-course-code {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: $accent;
+}
+.hero-status-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: $green;
+  background: rgba($green, 0.15);
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+  border: 1px solid rgba($green, 0.3);
+}
+.hero-course-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: $fg0;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+.meta-icon  { font-size: 12px; color: $text-muted; }
+.meta-text  { font-size: 12px; color: $fg3; }
+
+// Progress bar
+progressbar.class-progress {
+  min-height: 6px;
+  border-radius: 3px;
+
+  > trough {
+    background: rgba($bg3, 0.5);
+    border-radius: 3px;
+    min-height: 6px;
+    border: none;
+    box-shadow: none;
+
+    > progress {
+      background: linear-gradient(90deg, $yellow 0%, $orange 100%);
+      border-radius: 3px;
+      min-height: 6px;
+      transition: all 1s linear;
+    }
+  }
+}
+.progress-label { font-size: 10px; color: $text-muted; }
+.progress-pct   { font-size: 11px; font-weight: 700; color: $accent; }
+
+// Next class row
+.next-class-row {
+  background: rgba($bg2, 0.4);
+  padding: 8px 12px;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  margin-top: 2px;
+
+  .next-icon     { font-size: 14px; color: $blue; }
+  .next-label    { font-size: 12px; color: $fg3; }
+  .countdown-badge {
+    font-size: 13px;
+    font-weight: 700;
+    color: $yellow;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    background: rgba($yellow, 0.12);
+    padding: 2px 10px;
+    border-radius: $radius-sm;
+    border: 1px solid rgba($yellow, 0.25);
+  }
+}
+
+// ── Class list ─────────────────────────────────────────────────────────────
+.class-list-scroll {
+  margin: 12px 0 0;
+}
+.class-list {
+  padding: 0 20px 12px;
+}
+
+.class-row {
+  padding: 10px 14px;
+  border-radius: $radius-md;
+  background: rgba($bg1, 0.5);
+  border: 1px solid transparent;
+  transition: background 150ms ease, border-color 150ms ease;
+
+  &--focused {
+    background: rgba($bg2, 0.7);
+    border-color: $focus-ring;
+    box-shadow: 0 0 0 1px rgba($aqua, 0.2);
+  }
+  &--now {
+    background: rgba($bg1, 0.8);
+    border-color: rgba($yellow, 0.3);
+  }
+
+  .row-time-col   { min-width: 72px; }
+  .row-start-time { font-size: 12px; font-weight: 700; color: $fg2; font-variant-numeric: tabular-nums; }
+  .row-end-time   { font-size: 10px; color: $text-muted; font-variant-numeric: tabular-nums; }
+
+  .row-accent-bar {
+    min-width: 2px;
+    background: rgba($blue, 0.5);
+    border-radius: 2px;
+    margin: 2px 0;
+  }
+  &--now .row-accent-bar { background: $yellow; }
+  &--focused .row-accent-bar { background: $aqua; }
+
+  .row-code  { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: $accent; }
+  .row-now-badge {
+    font-size: 8px; font-weight: 700; letter-spacing: 1px;
+    color: $green; background: rgba($green, 0.15);
+    padding: 1px 6px; border-radius: 3px;
+    border: 1px solid rgba($green, 0.3);
+  }
+  .row-name  { font-size: 13px; font-weight: 600; color: $fg1; }
+  .row-meta  { font-size: 11px; color: $fg4; }
+  .row-credits {
+    font-size: 10px; font-weight: 700; color: $purple;
+    background: rgba($purple, 0.12); padding: 2px 7px;
+    border-radius: $radius-sm; border: 1px solid rgba($purple, 0.25);
+  }
+}
+
+.empty-day {
+  padding: 40px 20px;
+  .empty-day-text { font-size: 13px; color: $text-muted; font-style: italic; }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// View 1 — Weekly Grid
+// ═══════════════════════════════════════════════════════════════════════════
+
+.view-weekly { background: transparent; }
+
+.weekly-scroll { margin: 0; }
+
+.weekly-grid {
+  padding: 12px 16px 16px;
+  min-height: 400px;
+}
+
+.day-column {
+  background: rgba($bg1, 0.4);
+  border-radius: $radius-md;
+  border: 1px solid $border;
+  padding: 0;
+  min-width: 130px;
+  transition: background 150ms ease, border-color 150ms ease;
+  overflow: hidden;
+
+  &--focused {
+    background: rgba($bg2, 0.6);
+    border-color: $focus-ring;
+    box-shadow: 0 0 0 1px rgba($aqua, 0.2), $shadow-sm;
+  }
+  &--today {
+    border-color: rgba($yellow, 0.35);
+    background: rgba($bg1, 0.65);
+  }
+  &--focused.day-column--today {
+    border-color: rgba($aqua, 0.6);
+  }
+}
+
+.day-header {
+  padding: 10px 8px 8px;
+  background: rgba($bg0-hard, 0.4);
+  border-bottom: 1px solid $border;
+
+  .day-short     { font-size: 11px; font-weight: 700; letter-spacing: 2px;
+                   text-transform: uppercase; color: $fg3; }
+  .day-today-dot { font-size: 8px; color: $accent; }
+}
+
+.day-slots {
+  padding: 8px 6px 6px;
+}
+
+.weekly-slot {
+  padding: 7px 8px;
+  background: rgba($bg2, 0.5);
+  border-radius: $radius-sm;
+  border-left: 2px solid rgba($blue, 0.5);
+
+  .wslot-code { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: $accent; }
+  .wslot-room { font-size: 10px; color: $fg4; }
+  .wslot-time { font-size: 10px; color: $text-muted; font-variant-numeric: tabular-nums; }
+}
+
+.day-empty {
+  font-size: 18px;
+  color: rgba($text-muted, 0.4);
+  padding: 12px 0;
+}
+
+.day-count {
+  font-size: 9px;
+  color: $text-muted;
+  padding: 4px 8px 8px;
+  letter-spacing: 0.5px;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// View 2 — Courses Catalog / Accordion
+// ═══════════════════════════════════════════════════════════════════════════
+
+.view-courses { background: transparent; }
+
+.courses-scroll { margin: 0; }
+.courses-list   { padding: 10px 16px 16px; }
+
+.course-row-wrap {
+  border-radius: $radius-md;
+  overflow: hidden;
+  background: rgba($bg1, 0.45);
+  border: 1px solid $border;
+  transition: border-color 150ms ease;
+
+  &:hover { border-color: rgba($bg3, 0.8); }
+}
+
+.course-row-header {
+  padding: 11px 14px;
+  background: transparent;
+  border: none;
+  transition: background 150ms ease;
+  cursor: pointer;
+
+  &--focused {
+    background: rgba($bg2, 0.6);
+
+    .course-badge { color: $accent2; border-color: rgba($orange, 0.4); }
+    .focus-indicator { color: $aqua; }
+  }
+
+  &--expanded {
+    background: rgba($bg2, 0.5);
+    border-bottom: 1px solid $border;
+
+    .expand-chevron { color: $accent; }
+  }
+
+  &:hover { background: rgba($bg2, 0.35); }
+
+  .focus-indicator {
+    font-size: 10px;
+    color: transparent;
+    min-width: 12px;
+    transition: color 120ms ease;
+  }
+  .course-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: $accent;
+    background: rgba($yellow, 0.1);
+    padding: 2px 8px;
+    border-radius: $radius-sm;
+    border: 1px solid rgba($yellow, 0.25);
+    min-width: 70px;
+    text-align: center;
+  }
+  .course-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: $fg1;
+  }
+  .course-credits-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: $radius-sm;
+    border: 1px solid transparent;
+
+    &.credits--high { color: $green;  background: rgba($green,  0.12); border-color: rgba($green,  0.25); }
+    &.credits--mid  { color: $blue;   background: rgba($blue,   0.12); border-color: rgba($blue,   0.25); }
+    &.credits--low  { color: $purple; background: rgba($purple, 0.12); border-color: rgba($purple, 0.25); }
+  }
+  .expand-chevron { font-size: 16px; color: $text-muted; transition: color 150ms ease; }
+}
+
+// ── Expanded details ─────────────────────────────────────────────────────
+.course-details {
+  padding: 14px 16px 16px;
+  background: rgba($bg0-soft, 0.6);
+}
+
+.detail-block {
+  padding-right: 24px;
+}
+.detail-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: $text-muted;
+  margin-bottom: 2px;
+}
+.detail-icon  { font-size: 12px; color: $text-muted; }
+.detail-value { font-size: 13px; color: $fg2; }
+
+.detail-credits {
+  font-size: 13px;
+  font-weight: 700;
+  &.credits--high { color: $green;  }
+  &.credits--mid  { color: $blue;   }
+  &.credits--low  { color: $purple; }
+}
+
+.detail-schedule { margin-top: 2px; }
+
+.schedule-chip {
+  padding: 4px 10px;
+  background: rgba($bg2, 0.6);
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+
+  .chip-day  { font-size: 10px; font-weight: 700; color: $accent; letter-spacing: 0.5px; }
+  .chip-time { font-size: 10px; color: $fg3; font-variant-numeric: tabular-nums; }
+}
+
+.link-btn {
+  padding: 6px 14px;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  background: rgba($bg2, 0.5);
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+
+  label { font-size: 12px; }
+
+  .link-hint { font-size: 9px; color: rgba($text-muted, 0.6); }
+
+  &--moodle {
+    border-color: rgba($orange, 0.3);
+    &:hover { background: rgba($orange, 0.15); border-color: rgba($orange, 0.5); }
+    label { color: $orange; }
+  }
+  &--web {
+    border-color: rgba($blue, 0.3);
+    &:hover { background: rgba($blue, 0.15); border-color: rgba($blue, 0.5); }
+    label { color: $blue; }
+  }
+}

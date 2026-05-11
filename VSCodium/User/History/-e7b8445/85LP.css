@@ -1,0 +1,10 @@
+@define-color bg rgba(26, 27, 38, 0.85);
+@define-color text #c0caf5;
+@define-color text-dark #15161e;
+@define-color accent #7aa2f7;
+@define-color clock #bb9af7;
+@define-color network #9ece6a;
+@define-color audio #ff9e64;
+@define-color bluetooth #7dcfff;
+@define-color battery #73daca;
+@define-color battery-critical #f7768e;

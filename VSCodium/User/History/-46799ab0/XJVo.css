@@ -1,0 +1,36 @@
+/* Make the main window invisible to see the swww desktop underneath */
+window {
+    background-color: transparent;
+}
+
+/* The main container holding the input field */
+#body {
+    /* Trigger the slide animation on load */
+    animation: slideUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Styling the input field itself - Gruvbox Dark */
+entry {
+    background-color: #282828; /* Gruvbox dark0 */
+    color: #ebdbb2;            /* Gruvbox light0 */
+    border: 2px solid #a89984; /* Gruvbox gray */
+    border-radius: 12px;
+    padding: 10px 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+entry:focus {
+    border-color: #83a598;     /* Gruvbox blue */
+}
+
+/* Keyframes to slide from the bottom of the screen to the center */
+@keyframes slideUp {
+    0% {
+        transform: translateY(800px); /* Adjust based on your screen height */
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}

@@ -1,0 +1,77 @@
+@import "colors.css";
+
+* {
+    font-family: "SF Pro Display", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+/* The main window */
+window {
+    margin: 0px;
+    /* Use a slightly more transparent version of the theme background 
+       so Hyprland's blur shines through better */
+    background-color: rgba(30, 30, 46, 0.6); 
+    border: 3px solid @accent;
+    border-radius: 20px;
+}
+
+/* Fix for invisible containers */
+#outer-box, #inner-box {
+    background-color: transparent;
+    margin: 5px;
+}
+
+/* The search bar */
+#input {
+    margin: 10px 15px;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: @text;
+    border-radius: 12px;
+}
+
+#scroll {
+    margin: 5px 15px;
+}
+
+/* The individual list items */
+#entry {
+    padding: 10px;
+    border-radius: 12px;
+    /* Add margin so shadow doesn't get cut off */
+    margin: 5px 0px; 
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+#text {
+    padding: 2px 5px;
+    color: @text;
+}
+
+/* --- 1. KEYBOARD NAVIGATION HIGHLIGHT --- */
+#entry:selected {
+    background-color: @accent;
+    border-radius: 12px;
+    outline: none;
+}
+
+#entry:selected #text {
+    color: @text-dark;
+}
+
+/* --- 2. MOUSE HOVER HIGHLIGHT --- */
+/* Kept entirely separate so GTK doesn't panic and break the selection! */
+#entry:hover {
+    background-color: @accent;
+    border-radius: 12px;
+    outline: none;
+}
+
+#entry:hover #text {
+    color: @text-dark;
+}

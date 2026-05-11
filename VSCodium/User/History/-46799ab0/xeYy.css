@@ -1,0 +1,29 @@
+/* ~/.config/gtklock/style.css */
+
+window {
+    background-color: transparent;
+}
+
+/* This targets the main box containing your input/clock */
+#body {
+    animation: slide-up 0.8s ease-out;
+}
+
+@keyframes slide-up {
+    from {
+        margin-top: 500px;
+        opacity: 0;
+    }
+    to {
+        margin-top: 0px;
+        opacity: 1;
+    }
+}
+
+input {
+    background: #3c3836;
+    color: #ebdbb2;
+    border: 2px solid #fabd2f; /* Gruvbox Yellow */
+    border-radius: 8px;
+    padding: 10px;
+}

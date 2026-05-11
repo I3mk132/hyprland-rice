@@ -1,0 +1,87 @@
+@import "colors.css";
+
+/* -----------------------------------------------------
+ * Global
+ * ----------------------------------------------------- */
+* {
+    font-family: "SF Pro Display", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+/* -----------------------------------------------------
+ * Main Window
+ * ----------------------------------------------------- */
+window {
+    margin: 0px;
+    padding: 10px;
+    background-color: rgba(30, 30, 46, 0.85); /* More solid for visibility */
+    border: 3px solid @accent;
+    border-radius: 20px;
+}
+
+/* Prevent invisible containers */
+#outer-box,
+#inner-box {
+    background-color: transparent;
+}
+
+/* -----------------------------------------------------
+ * Input Bar
+ * ----------------------------------------------------- */
+#input {
+    margin: 10px;
+    padding: 12px 15px;
+
+    background-color: rgba(255, 255, 255, 0.08);
+    color: @text;
+
+    border-radius: 14px;
+}
+
+/* Scroll area */
+#scroll {
+    margin: 5px 10px 10px 10px;
+}
+
+/* -----------------------------------------------------
+ * Entries
+ * ----------------------------------------------------- */
+#entry {
+    margin: 6px 10px;
+    padding: 12px 15px;
+
+    border-radius: 14px;
+    background-color: transparent;
+
+    transition: background-color 0.15s ease-in-out;
+}
+
+#text {
+    color: @text;
+}
+
+/* -----------------------------------------------------
+ * Keyboard Selection (MOST IMPORTANT)
+ * ----------------------------------------------------- */
+#entry:selected {
+    background: @accent;
+}
+
+#entry:selected #text {
+    color: @text-dark;
+}
+
+/* -----------------------------------------------------
+ * Mouse Hover
+ * ----------------------------------------------------- */
+#entry:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+#entry:hover #text {
+    color: @text;
+}

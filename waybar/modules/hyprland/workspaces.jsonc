@@ -12,7 +12,8 @@
         },
         "window-rewrite": { // TODO complete
             "title<.*youtube.*>": " ", 
-            "(.*) - Chromium": " ",
+            "class<.*chromium.*>": "",
+            "title<.*Chromium.*>": "",
             "(.*)VSCodium": "󰨞 ",
             "class<Codium>": "󰨞 ",
             "(.*) - Thunar": " ",

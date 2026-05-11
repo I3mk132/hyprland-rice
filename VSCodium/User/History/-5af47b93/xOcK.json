@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "ags",
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "ags/*": [
+        "./@girs/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "./@girs"
+  ]
+}

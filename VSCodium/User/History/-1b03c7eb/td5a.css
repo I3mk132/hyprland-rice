@@ -1,0 +1,93 @@
+@import "colors.css";
+
+* {
+    border: none;
+    font-family: "SF Pro Display", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: transparent; /* Makes the main bar invisible so modules "float" */
+}
+
+tooltip {
+    background: @bg; 
+    border: 2px solid @accent;
+    border-radius: 12px;
+}
+
+tooltip label { color: @text; }
+
+/* --- Workspaces --- */
+#workspaces {
+    background: @bg;
+    border-radius: 20px;
+    padding: 4px 6px;
+}
+
+#workspaces button {
+    /* Changed to a simple, smooth ease-in-out to stop the jitter */
+    transition: all 0.25s ease-in-out;
+    color: @text;
+    background: transparent;
+    border-radius: 15px;
+    padding: 2px 8px;
+    margin: 0 4px;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.active {
+    background: @accent; 
+    color: @text-dark; 
+    min-width: 35px; 
+}
+
+/* --- Modules --- */
+#mode, #clock, #network, #pulseaudio, #bluetooth, #battery {
+    background: @bg;
+    color: @text;
+    border-radius: 20px;
+    padding: 0 16px;
+    margin: 0 2px;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect for all interactive right-side modules */
+#network:hover, #pulseaudio:hover, #bluetooth:hover, #battery:hover, #clock:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Individual Module Accents --- */
+#clock { color: @clock; }
+#network { color: @network; }
+#pulseaudio { color: @audio; }
+#bluetooth { color: @bluetooth; }
+#battery { color: @battery; }
+
+#battery.charging, #battery.plugged {
+    color: @text-dark;
+    background-color: @battery; 
+}
+
+/* --- Battery Animations --- */
+@keyframes blink {
+    to { background-color: @battery-critical; color: @text-dark; }
+}
+
+#battery.warning:not(.charging) { color: @battery-critical; }
+#battery.critical:not(.charging) {
+    background-color: @battery-critical;
+    color: @text-dark;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}

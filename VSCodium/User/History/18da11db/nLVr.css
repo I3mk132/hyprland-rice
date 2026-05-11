@@ -1,0 +1,11 @@
+/* DRACULA THEME - High Contrast Neon */
+@define-color bg rgba(40, 42, 54, 0.85); /* Deep Dark Purple/Black */
+@define-color text #f8f8f2; /* White */
+@define-color text-dark #282a36; /* Very Dark Background */
+@define-color accent #bd93f9; /* Vibrant Purple */
+@define-color clock #8be9fd; /* Neon Cyan */
+@define-color network #ff79c6; /* Neon Pink */
+@define-color audio #ffb86c; /* Bright Orange */
+@define-color bluetooth #bd93f9; /* Vibrant Purple */
+@define-color battery #50fa7b; /* Neon Green */
+@define-color battery-critical #ff5555; /* Bright Red */

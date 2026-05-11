@@ -1,0 +1,116 @@
+* {
+    border: none;
+    font-family: "SF Pro Display", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: transparent; /* Makes the main bar invisible so modules "float" */
+}
+
+tooltip {
+    background: rgba(30, 30, 46, 0.95); /* Deep dark background */
+    border: 2px solid #b4befe; /* Soft lavender border */
+    border-radius: 12px;
+}
+
+tooltip label {
+    color: #cdd6f4;
+    padding: 5px;
+}
+
+//* --- Workspaces --- */
+#workspaces {
+    background: rgba(30, 30, 46, 0.85);
+    border-radius: 20px;
+    padding: 4px 6px;
+}
+
+#workspaces button {
+    /* Changed to a simple, smooth ease-in-out to stop the jitter */
+    transition: all 0.25s ease-in-out;
+    color: #a6adc8;
+    background: transparent;
+    border-radius: 15px;
+    padding: 2px 8px;
+    margin: 0 4px;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #cdd6f4;
+}
+
+#workspaces button.active {
+    background: #b4befe; 
+    color: #11111b; 
+    /* Reduced min-width slightly so the size change isn't as jarring */
+    min-width: 35px; 
+}
+
+/* --- Modules --- */
+#mode, #clock, #network, #pulseaudio, #bluetooth, #battery {
+    background: rgba(30, 30, 46, 0.85);
+    color: #cdd6f4;
+    border-radius: 20px;
+    padding: 0 16px;
+    margin: 0 2px;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect for all interactive right-side modules */
+#network:hover, #pulseaudio:hover, #bluetooth:hover, #battery:hover, #clock:hover {
+    background: rgba(49, 50, 68, 0.95);
+}
+
+/* --- Individual Module Accents --- */
+#clock {
+    color: #89b4fa; /* Soft Blue */
+}
+
+#network {
+    color: #cba6f7; /* Soft Mauve */
+}
+
+#pulseaudio {
+    color: #fab387; /* Soft Peach */
+}
+
+#bluetooth {
+    color: #89dceb; /* Sky Blue */
+}
+
+#battery {
+    color: #a6e3a1; /* Soft Green */
+}
+
+#battery.charging, #battery.plugged {
+    color: #11111b;
+    background-color: #a6e3a1; /* Solid green background when charging */
+}
+
+/* --- Battery Animations --- */
+@keyframes blink {
+    to {
+        background-color: #f38ba8; /* Soft Red */
+        color: #11111b;
+    }
+}
+
+#battery.warning:not(.charging) {
+    color: #f38ba8;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f38ba8;
+    color: #11111b;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}

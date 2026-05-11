@@ -1,0 +1,7 @@
+[
+  { "day": "Monday", "name": "Signals and Systems", "start": "09:00", "end": "11:50", "room": "EE-101" },
+  { "day": "Monday", "name": "Electromagnetic Field Theory", "start": "13:00", "end": "15:50", "room": "EE-102" },
+  { "day": "Wednesday", "name": "Analog Electronics", "start": "10:00", "end": "12:50", "room": "EE-201" },
+  { "day": "Friday", "name": "Telecommunication Networks", "start": "14:00", "end": "16:50", "room": "EE-305" },
+  { "day": "Saturday", "name": "Microprocessors Lab", "start": "15:00", "end": "18:00", "room": "Lab-03" }
+]

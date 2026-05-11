@@ -1,0 +1,335 @@
+@import "current-theme.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Fira Code",  FontAwesome;
+    font-weight: bold;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(0, 0, 0, 0);
+    background: transparent;
+    color: @fg;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+tooltip {
+    background: alpha(@bg0, 0.8);
+    border-radius: 18px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: @bg0;
+}
+
+
+#workspaces {
+    background: alpha(@bg0, 0.6);
+    margin: 5px 5px 5px 5px;
+    padding: 6px 5px;
+    border-radius: 18px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    /* margin-left: 5px;
+    margin-right: 5px; */
+    border: 0.5px solid @bg0;
+}
+
+#workspaces button {
+    padding: 0px 5px;
+    margin: 0px 3px;
+    border-radius: 16px;
+    color: @fg;
+    background-color: @bg1;
+    transition: all 0.3s ease-in-out;
+}
+
+
+#workspaces button.empty {
+    opacity: 0.4;
+}
+
+#workspaces button.active {
+    color: @bg1;
+    background-color: @fg;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+    transition: all 0.3s ease-in-out;
+    /*opacity: 1.0;*/
+}
+
+#workspaces button.urgent {
+    background-color: @fg;
+    color: @bg1;
+    padding: 0 0 0 5px;
+    border-radius: 16px;
+    min-width: 40px;
+    background-size: 300% 300%;
+}
+
+#workspaces button:hover {
+    background-color: @fg;
+    color: @bg1;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+}
+
+#clock,
+#network,
+#bluetooth,
+/*#custom-salah,*/
+#custom-pomodoro, 
+#window,
+#custom-rofi,
+#custom-power_btn,
+#custom-lock_screen,
+#custom-wol,
+#custom-tailscale,
+#custom-updates,
+#custom-github,
+#custom-media,
+#power-profiles-daemon,
+#temperature,
+#battery,
+#backlight,
+#custom-weather, 
+#custom-wl-gammarelay-temperature,
+#pulseaudio,
+#tray,
+#custom-swaync {
+    background-color: @bg1;
+    margin: 0 0 0 0;
+    padding: 0px 10px 0px 10px;
+    border-radius: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+
+
+/* LEFT MODULES */
+
+
+#clock {
+    color: @orange;
+    margin-left: 10px;
+}
+
+#network {
+    border-radius: 18px 0px 0px 18px;
+    color: @yellow;
+    margin-left: 5px;
+}
+
+#network.disabled {
+    color: @yellow;
+}
+
+
+#bluetooth {
+    border-radius: 0 18px 18px 0px;
+    color: @blue;
+} 
+
+/* pomodoro Timer */
+
+#custom-pomodoro {
+    
+    font-weight: bold;
+    margin: 0 2px;
+    border-radius: 8px;
+
+}
+
+#custom-pomodoro-30m,
+#custom-pomodoro-1h,
+#custom-pomodoro-2h {
+    color: @red;
+    font-weight: 600;
+    margin: 0 1px;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+}
+
+
+#window {
+    background: @fg;
+    color: @bg0;
+    border-radius: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+}
+
+
+
+/* CENTER MODULES */
+
+
+#custom-rofi {
+    opacity: 0.6
+}
+
+#custom-power_btn {
+    color: @purple;
+    border-radius: 18px 0px 0px 18px;
+}
+
+#custom-lock_screen {
+    color: @purple;
+    border-radius: 0px 0px 0px 0px;
+}
+
+#custom-tailscale,
+#custom-wol {
+    border-radius: 0px 0px 0px 0px;    
+}
+#custom-tailscale.green,
+#custom-wol.green {
+    color: @green;
+}
+#custom-tailscale.red,
+#custom-wol.red {
+    color: @red; 
+}
+#custom-wol.orange {
+    color: @orange;
+}
+
+
+#custom-updates.green {
+    color: @green;
+}
+
+#custom-updates.yellow {
+    color: @yellow;
+}
+
+#custom-updates.red {
+    color: @red;
+}
+
+#custom-github {
+    border-radius: 0px 18px 18px 0px;
+}
+
+#custom-github.green {
+    color: @green;
+}
+
+#custom-github.yellow {
+    color: @yellow;
+}
+
+#custom-github.red {
+    color: @red;
+}
+
+
+
+/* RIGHT MODULES */
+
+
+#custom-media {
+    padding-right: 15px;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+#custom-media.custom-spotify {
+    color: @aqua;
+}
+
+#temperature {
+    color: @aqua;
+    border-radius: 18px 0px 0px 18px;
+}
+
+#temperature.critical {
+    color: @red;
+}
+
+#battery {
+    border-radius: 0px 18px 18px 0px;
+    padding: 0px 8px 0px 7px;
+    color: @green;
+    margin-right: 5px;
+}
+
+#battery.warning {
+    color: @yellow;
+}
+
+#battery.critical {
+    color: @red;
+}
+
+#custom-weather {
+    margin-right: 5px;
+}
+
+#power-profiles-daemon{
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 7px;
+}
+
+#power-profiles-daemon.power-saver{
+    color: @green;
+}
+
+#power-profiles-daemon.balanced{
+    color: @aqua;
+}
+
+#power-profiles-daemon.performance{
+    color: @yellow;
+}
+
+#custom-wl-gammarelay-temperature {
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 7px;
+    color: @orange;
+}
+
+#backlight {
+    border-radius: 0px 18px 18px 0px;
+    margin-right: 5px
+}
+
+#pulseaudio {
+    border-radius: 18px 0 0 18px;
+    color: @blue;
+}
+
+#pulseaudio.microphone {
+    border-radius: 0 18px 18px 0;
+    color: @purple;
+    margin-right: 5px;
+}
+
+#tray {
+    border-radius: 18px 0 0 18px;
+}
+
+#custom-swaync {
+    border-radius: 0px 18px 18px 0px;
+    margin-right: 10px;
+}
+
+#custom-updates {
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 7px;
+}

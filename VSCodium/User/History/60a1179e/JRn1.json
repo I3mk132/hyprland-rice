@@ -1,0 +1,14 @@
+{
+    "roo-cline.debug": false,
+    "roo-cline.allowedCommands": [
+        "git log",
+        "git diff",
+        "git show"
+    ],
+    "roo-cline.deniedCommands": [],
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "workbench.iconTheme": "dark-minimalist-icons",
+    "workbench.statusBar.visible": false,
+    
+}
+

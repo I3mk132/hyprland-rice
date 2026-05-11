@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "astal": "github:Aylur/ags",
+    "gnim": "*"
+  },
+  "prettier": {
+    "semi": false,
+    "tabWidth": 2
+  }
+}

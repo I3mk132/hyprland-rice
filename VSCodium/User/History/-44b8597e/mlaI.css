@@ -1,0 +1,79 @@
+@import "colors.css";
+
+* {
+    font-family: "JetBrainsMono Nerd Font Propo", "SF Pro Display", sans-serif;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+/* -----------------------------------------------------
+ * The Sleek Dark Window
+ * ----------------------------------------------------- */
+window {
+    margin: 0px;
+    background-color: @bg;
+    /* A very subtle, thin border instead of a thick one */
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    border-radius: 12px;
+}
+
+#outer-box, #inner-box {
+    background-color: transparent;
+}
+
+/* -----------------------------------------------------
+ * The Command Prompt Bar
+ * ----------------------------------------------------- */
+#input {
+    margin: 15px 15px 5px 15px;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 700;
+    
+    /* Transparent background, relying on a clean bottom border */
+    background-color: transparent;
+    color: @accent;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0px;
+}
+
+#scroll {
+    margin: 10px 0px;
+}
+
+/* -----------------------------------------------------
+ * The List Items (Unselected State)
+ * ----------------------------------------------------- */
+#entry {
+    padding: 12px 20px;
+    margin: 4px 15px;
+    background-color: transparent;
+    border-radius: 8px;
+    border-left: 4px solid transparent; /* Hidden border placeholder */
+}
+
+#text {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4); /* Dimmed text by default */
+}
+
+/* -----------------------------------------------------
+ * The Selection (THE FIX)
+ * We don't change the background! We highlight the text and border!
+ * ----------------------------------------------------- */
+#entry:selected {
+    /* Just a very faint highlight, no solid colors */
+    background-color: rgba(255, 255, 255, 0.05); 
+    
+    /* The glowing accent stripe on the left */
+    border-left: 4px solid @accent; 
+    border-radius: 0px 8px 8px 0px;
+}
+
+#entry:selected #text {
+    /* Light the text up in your theme's color */
+    color: @accent; 
+    font-weight: 800;
+}

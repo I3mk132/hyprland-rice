@@ -1,0 +1,29 @@
+{
+    "roo-cline.debug": false,
+    "roo-cline.allowedCommands": [
+        "git log",
+        "git diff",
+        "git show"
+    ],
+    "roo-cline.deniedCommands": [],
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "workbench.iconTheme": "dark-minimalist-icons"
+}
+
+{
+  "workbench.activityBar.location": "hidden", // Hides the side icon bar
+  "workbench.statusBar.visible": false,       // Hides the bottom bar
+  "editor.minimap.enabled": false,            // Removes the tiny map on the right
+  "workbench.tips.enabled": false,            // No "helpful" popups
+  "workbench.layoutControl.enabled": false,   // Hides the top-right layout buttons
+  "editor.scrollbar.vertical": "hidden",      // Cleaner edges
+  "editor.scrollbar.horizontal": "hidden"
+}
+
+{
+  "editor.lineNumbers": "on",                 // Keep these for navigation, or use "relative"
+  "editor.glyphMargin": false,                // Removes the margin for breakpoints
+  "editor.folding": false,                    // Removes the little arrows next to line numbers
+  "editor.renderLineHighlight": "none",       // Removes the box around the active line
+  "editor.occurrencesHighlight": "off"        // Less visual "jumping" when clicking words
+}

@@ -1,0 +1,16 @@
+{
+
+
+    "custom/pomodoro": {
+    "exec": "~/.config/waybar/scripts/pomodoro.sh status",
+    "interval": 5,
+    "return-type": "json",
+    "on-click": "~/.config/waybar/scripts/pomodoro.sh menu",
+    "on-click-right": "~/.config/waybar/scripts/pomodoro.sh stop",
+    "on-scroll-up": "~/.config/waybar/scripts/pomodoro.sh start 30",
+    "on-scroll-down": "~/.config/waybar/scripts/pomodoro.sh stop",
+    "tooltip": true,
+    "format": "{}",
+    "signal": 8
+  }
+}

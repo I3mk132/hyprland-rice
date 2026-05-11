@@ -1,0 +1,129 @@
+@import "colors.css";
+
+* {
+    border: none;
+    font-family: "SF Pro Display", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+tooltip {
+    background: rgba(40, 40, 40, 0.85); 
+    border: 2px solid #d79921;
+    border-radius: 12px;
+}
+
+tooltip label { color: #ebdbb2; }
+
+/* --- Workspaces --- */
+#workspaces {
+    background: rgba(40, 40, 40, 0.85);
+    border-radius: 20px;
+    padding: 4px 6px;
+    margin: 0 2px; /* Added margin to align horizontally with other modules */
+}
+
+#workspaces button {
+    transition: all 0.25s ease-in-out;
+    color: #ebdbb2;
+    background: transparent;
+    border-radius: 15px;
+    padding: 2px 8px;
+    margin: 0 4px;
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.active {
+    background: #d79921; 
+    color: #282828; 
+    min-width: 35px; 
+}
+
+/* --- ALL MODULES (Unified Pill Style) --- */
+/* Grouping everything here guarantees they all have the exact same height and shape */
+#mode, #clock, #network, #pulseaudio, #bluetooth, #battery, #custom-salah, #custom-notification, #custom-powermenu {
+    background: rgba(40, 40, 40, 0.85);
+    border-radius: 20px;
+    padding: 0 16px;
+    margin: 0 2px;
+    transition: all 0.2s ease;
+}
+
+/* Adjust horizontal padding for single-icon modules so they form perfect rounded squares */
+#custom-notification, #custom-powermenu {
+    padding: 0 12px; 
+}
+
+/* Unified Hover effects */
+#network:hover, #pulseaudio:hover, #bluetooth:hover,
+#battery:hover, #clock:hover, #custom-salah:hover, 
+#custom-notification:hover, #custom-powermenu:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Individual Module Colors --- */
+#clock { color: #458588; }
+#network { color: #b16286; }
+#pulseaudio { color: #fe8019; }
+#bluetooth { color: #83a598; }
+#battery { color: #b8bb26; }
+#custom-salah { color: #b8bb26; }
+#custom-powermenu { color: #83a598; }
+#custom-notification { color: #fabd2f; }
+
+
+/* --- Battery States & Animations --- */
+#battery.charging, #battery.plugged {
+    color: #282828;
+    background-color: #b8bb26; 
+}
+
+@keyframes blink {
+    to { background-color: #fb4934; color: #282828; }
+}
+
+#battery.warning:not(.charging) { color: #fb4934; }
+#battery.critical:not(.charging) {
+    background-color: #fb4934;
+    color: #282828;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* الشكل الأساسي (الدائري والمطفي) */
+#custom-pomodoro {
+    background-color: #2e2e2e; /* لون مطفي يناسب ثيمك */
+    color: #8c8c8c;
+    border-radius: 20px; /* حواف دائرية */
+    padding: 0px 10px; /* مساحة صغيرة لتجعله دائرياً عند وجود الأيقونة فقط */
+    margin: 5px 8px;
+    font-weight: bold;
+    transition: all 0.4s ease-in-out; /* هذا السطر هو اللي بيسوي حركة التمدد */
+}
+
+/* وقت العمل (يتمدد ويصبح أحمر) */
+#custom-pomodoro.work {
+    background-color: #3b1f24; /* خلفية حمراء داكنة */
+    color: #ff6666; /* خط أحمر */
+    padding: 0px 15px; /* تمدد المساحة الجانبية لتصبح بيضاوية */
+}
+
+/* وقت الراحة (يتمدد ويصبح أزرق) */
+#custom-pomodoro.break {
+    background-color: #1f2d3b; /* خلفية زرقاء داكنة */
+    color: #66b3ff; /* خط أزرق */
+    padding: 0px 15px;
+}

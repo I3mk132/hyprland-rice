@@ -1,0 +1,124 @@
+/* Gruvbox Color Palette */
+@define-color gb-bg #282828;
+@define-color gb-bg-soft #3c3836;
+@define-color gb-fg #ebdbb2;
+@define-color gb-yellow #fabd2f;
+@define-color gb-red #cc241d;
+@define-color gb-orange #fe8019;
+
+/* Main Window Container */
+window {
+    background-color: transparent;
+}
+
+.dashboard-container {
+    background-color: @gb-bg;
+    border: 2px solid @gb-bg-soft;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+    min-width: 400px;
+    /* Smooth height transition when opening details */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+
+/* Minimalist Tracker */
+.smart-tracker {
+    margin-bottom: 8px;
+}
+
+.tracker-title {
+    color: @gb-orange;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.course-name {
+    color: @gb-fg;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.course-time {
+    color: @gb-yellow;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+/* Decreasing Progress Bar */
+.progress-bar {
+    min-height: 8px;
+    border-radius: 4px;
+    background-color: @gb-bg-soft;
+    margin-bottom: 16px;
+}
+
+.progress-bar block {
+    background-color: @gb-red; /* Red indicates "time running out" */
+    border-radius: 4px;
+    transition: all 1s linear; /* Smooth ticking animation */
+}
+
+/* Button */
+.expand-btn {
+    background-color: @gb-bg-soft;
+    color: @gb-fg;
+    border-radius: 8px;
+    padding: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.expand-btn:hover {
+    background-color: @gb-yellow;
+    color: @gb-bg;
+}
+
+/* Detailed Schedule View Animations */
+.details-container {
+    margin-top: 16px;
+    transition: all 0.4s ease;
+}
+
+.details-container.collapsed {
+    opacity: 0;
+    font-size: 0px;
+    margin-top: 0px;
+}
+
+.details-container.expanded {
+    opacity: 1;
+}
+
+/* Individual Detail Cards */
+.course-card {
+    background-color: @gb-bg-soft;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.card-code {
+    color: @gb-bg;
+    background-color: @gb-yellow;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.card-title {
+    color: @gb-fg;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.card-meta {
+    color: alpha(@gb-fg, 0.6);
+    font-size: 12px;
+}

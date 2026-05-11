@@ -1,0 +1,90 @@
+file:///home/i3mk/Cprojects/main.c {"mtime":1777742775565,"ctime":1777742507867,"size":1807,"etag":"3g1k0j75e1r9","orphaned":false,"typeId":""}
+#include <GLFW/glfw3.h>
+#include <math.h>
+
+float angle = 0.0f;
+
+void drawCube() {
+    glBegin(GL_QUADS);
+
+    // Front
+    glColor3f(1,0,0);
+    glVertex3f(-1, -1,  1);
+    glVertex3f( 1, -1,  1);
+    glVertex3f( 1,  1,  1);
+    glVertex3f(-1,  1,  1);
+
+    // Back
+    glColor3f(0,1,0);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1,  1, -1);
+    glVertex3f( 1,  1, -1);
+    glVertex3f( 1, -1, -1);
+
+    // Top
+    glColor3f(0,0,1);
+    glVertex3f(-1, 1, -1);
+    glVertex3f(-1, 1,  1);
+    glVertex3f( 1, 1,  1);
+    glVertex3f( 1, 1, -1);
+
+    // Bottom
+    glColor3f(1,1,0);
+    glVertex3f(-1, -1, -1);
+    glVertex3f( 1, -1, -1);
+    glVertex3f( 1, -1,  1);
+    glVertex3f(-1, -1,  1);
+
+    // Right
+    glColor3f(1,0,1);
+    glVertex3f(1, -1, -1);
+    glVertex3f(1,  1, -1);
+    glVertex3f(1,  1,  1);
+    glVertex3f(1, -1,  1);
+
+    // Left
+    glColor3f(0,1,1);
+    glVertex3f(-1, -1, -1);
+    glVertex3f(-1, -1,  1);
+    glVertex3f(-1,  1,  1);
+    glVertex3f(-1,  1, -1);
+
+    glEnd();
+}
+
+int main() {
+    if (!glfwInit()) return -1;
+
+    GLFWwindow* window = glfwCreateWindow(800, 600, "3D Game Start", NULL, NULL);
+    if (!window) {
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+    glEnable(GL_DEPTH_TEST);
+
+    while (!glfwWindowShouldClose(window)) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        float ratio = 800.0f / 600.0f;
+        glFrustum(-ratio, ratio, -1, 1, 1, 100);
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glTranslatef(0.0f, 0.0f, -5.0f);
+
+        angle += 0.5f;
+        glRotatef(angle, 1, 1, 0);
+
+        drawCube();
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}

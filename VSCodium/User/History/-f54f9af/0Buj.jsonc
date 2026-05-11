@@ -1,0 +1,23 @@
+{
+
+
+"custom/pomodoro": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/pomodoro.sh status",
+    "signal": 8,
+    "interval": "once",
+    "on-click": "~/.config/waybar/scripts/pomodoro.sh stop",
+    "on-click-right": "~/.config/waybar/scripts/pomodoro.sh menu",
+    "tooltip": "Left: stop | Right: start timer"
+},
+
+// أزرار التشغيل السريع 
+"custom/pomodoro-start": {
+    "format": "🍅",
+    "on-click": "~/.config/waybar/scripts/pomodoro.sh 30m",
+    "on-click-middle": "~/.config/waybar/scripts/pomodoro.sh 1h",
+    "on-click-right": "~/.config/waybar/scripts/pomodoro.sh 2h",
+    "tooltip": "Left: 30m | Middle: 1h | Right: 2h"
+}
+
+}

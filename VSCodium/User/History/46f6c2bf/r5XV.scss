@@ -1,0 +1,49 @@
+.schedule-container {
+    background-color: rgba($bg, 0.95);
+    border: 2px solid $bg-soft;
+    border-radius: 12px;
+    padding: 24px; /* Increased from 16px */
+    min-width: 450px; /* Increased from 300px */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    
+    animation: slide-in-fade 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.header {
+    margin-bottom: 20px; /* Slightly more breathing room */
+    padding-bottom: 16px;
+    border-bottom: 1px solid $gray;
+
+    .clock {
+        font-family: "JetBrains Mono", sans-serif;
+        font-size: 42px; /* Increased from 32px */
+        font-weight: bold;
+        color: $fg;
+        margin-bottom: 8px;
+    }
+
+    .status {
+        font-size: 16px; /* Increased from 14px */
+        // ... (keep the rest of the .status nesting the same)
+    }
+}
+
+.class-list {
+    min-height: 250px; /* Increased from 150px */
+    max-height: 500px; /* Increased from 300px */
+}
+
+.class-card {
+    // ... (keep previous styles)
+    padding: 14px 18px; /* Slightly larger padding for the cards */
+
+    .class-name {
+        font-size: 16px; /* Increased from 14px */
+        // ...
+    }
+
+    .class-details {
+        font-size: 14px; /* Increased from 12px */
+        // ...
+    }
+}

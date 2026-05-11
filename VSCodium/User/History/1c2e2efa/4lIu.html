@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dijivoo — Dijital Dünyaya Açılan Kapınız</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  /* ===== CSS VARIABLES ===== */
+  :root {
+    --teal: #1BA88A;
+    --teal-light: #24D4AF;
+    --teal-dark: #0E7A65;
+    --slate: #2C4A5A;
+    --slate-light: #3D5E72;
+    --bg: #080E12;
+    --bg2: #0D1A22;
+    --bg3: #101F28;
+    --surface: rgba(28, 55, 70, 0.45);
+    --surface2: rgba(27, 168, 138, 0.08);
+    --text: #E8F0F5;
+    --text-dim: #7BA3B8;
+    --text-faint: #3D6478;
+    --border: rgba(27, 168, 138, 0.2);
+    --border-bright: rgba(27, 168, 138, 0.5);
+    --font-main: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-ar: 'Noto Kufi Arabic', sans-serif;
+  }
+
+  /* ===== RESET ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    cursor: none;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { cursor: none; }
+
+  /* ===== CUSTOM CURSOR ===== */
+  #cursor-dot {
+    position: fixed; top: 0; left: 0;
+    width: 8px; height: 8px;
+    background: var(--teal-light);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.2s;
+  }
+  #cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--teal);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.35s cubic-bezier(0.23,1,0.32,1),
+                height 0.35s cubic-bezier(0.23,1,0.32,1),
+                opacity 0.35s;
+  }
+  body:has(a:hover) #cursor-dot,
+  body:has(button:hover) #cursor-dot {
+    width: 14px; height: 14px; background: var(--teal-light);
+  }
+  body:has(a:hover) #cursor-ring,
+  body:has(button:hover) #cursor-ring {
+    width: 56px; height: 56px; opacity: 0.5;
+  }
+
+  /* ===== CANVAS BACKGROUND ===== */
+  #bg-canvas {
+    position: fixed; inset: 0;
+    z-index: 0; pointer-events: none;
+    opacity: 0.35;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--teal-dark); border-radius: 2px; }
+
+  /* ===== SCROLL PROGRESS ===== */
+  #scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: linear-gradient(90deg, var(--teal-dark), var(--teal-light));
+    z-index: 999; transition: width 0.1s;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 clamp(20px, 5vw, 80px);
+    height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8, 14, 18, 0.75);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    height: 60px;
+    border-bottom-color: var(--border-bright);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+  .nav-logo {
+    height: 44px;
+    filter: drop-shadow(0 0 12px rgba(27, 168, 138, 0.5));
+    transition: filter 0.3s;
+  }
+  .nav-logo:hover { filter: drop-shadow(0 0 20px rgba(36, 212, 175, 0.7)); }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    font-family: var(--font-main);
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--teal-light);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+  }
+  .nav-links a:hover { color: var(--teal-light); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .lang-switcher {
+    display: flex; gap: 6px; align-items: center;
+  }
+  .lang-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 4px 10px; border-radius: 20px;
+    font-family: var(--font-body); font-size: 0.75rem;
+    transition: all 0.3s;
+  }
+  .lang-btn.active, .lang-btn:hover {
+    background: var(--teal-dark); border-color: var(--teal);
+    color: var(--text);
+  }
+
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: none; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--teal); border-radius: 2px;
+    transition: all 0.35s;
+  }
+  .mobile-menu {
+    display: none; position: fixed;
+    top: 72px; left: 0; right: 0; bottom: 0;
+    background: rgba(8,14,18,0.97);
+    backdrop-filter: blur(30px);
+    z-index: 99;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 36px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--font-main);
+    font-size: 2rem; font-weight: 700;
+    color: var(--text-dim); letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--teal-light); }
+
+  /* ===== SECTION BASE ===== */
+  section {
+    position: relative; z-index: 1;
+    overflow: hidden;
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 100px clamp(20px, 8vw, 140px) 80px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    color: var(--teal-light); text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; background: var(--teal-light);
+    border-radius: 50%; animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.6); }
+  }
+
+  .hero-title {
+    font-family: var(--font-main);
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 800; line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+  .hero-title .accent {
+    background: linear-gradient(135deg, var(--teal-light) 0%, var(--teal) 50%, var(--teal-dark) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+  }
+  .hero-title .accent::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--teal-light), transparent);
+    border-radius: 2px;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.7); }
+    50% { opacity: 1; transform: scaleX(1); }
+  }
+
+  .hero-desc {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.75;
+    color: var(--text-dim);
+    max-width: 680px;
+    margin: 0 auto 48px;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    color: #fff; border: none;
+    padding: 14px 36px; border-radius: 6px;
+    font-family: var(--font-main); font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 30px rgba(27,168,138,0.3);
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--teal-light), var(--teal));
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(27,168,138,0.5); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-ghost {
+    background: none;
+    border: 1px solid var(--border-bright);
+    color: var(--text); padding: 14px 36px; border-radius: 6px;
+    font-family: var(--font-main); font-size: 0.9rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: all 0.35s;
+  }
+  .btn-ghost:hover {
+    background: var(--surface2);
+    border-color: var(--teal-light);
+    color: var(--teal-light);
+    transform: translateY(-3px);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp 1s 1.4s forwards;
+  }
+  .scroll-hint span { font-size: 0.7rem; letter-spacing: 0.15em; color: var(--text-faint); text-transform: uppercase; }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--teal), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION REVEAL ANIMATIONS ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.9s cubic-bezier(0.23,1,0.32,1),
+                transform 0.9s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0; transform: translateX(-60px);
+    transition: opacity 0.9s cubic-bezier(0.23,1,0.32,1),
+                transform 0.9s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0; transform: translateX(60px);
+    transition: opacity 0.9s cubic-bezier(0.23,1,0.32,1),
+                transform 0.9s cubic-bezier(0.23,1,0.32,1);
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* Stagger delays */
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+  .delay-4 { transition-delay: 0.4s; }
+  .delay-5 { transition-delay: 0.5s; }
+  .delay-6 { transition-delay: 0.6s; }
+
+  /* ===== SECTION HEADINGS ===== */
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--teal); display: block;
+  }
+  .section-title {
+    font-family: var(--font-main);
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .section-title .accent {
+    background: linear-gradient(135deg, var(--teal-light), var(--teal));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: var(--text-dim); line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* ===== DIVIDER ===== */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+    margin: 0 clamp(20px, 8vw, 140px);
+  }
+
+  /* ===== SERVICES ===== */
+  #services {
+    padding: 120px clamp(20px, 8vw, 140px);
+    background: var(--bg2);
+  }
+  .services-header { margin-bottom: 72px; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  .service-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 30px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+    backdrop-filter: blur(12px);
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 20%, rgba(27,168,138,0.12), transparent 70%);
+    opacity: 0; transition: opacity 0.5s;
+  }
+  .service-card:hover { 
+    border-color: var(--border-bright);
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px var(--border-bright);
+  }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, rgba(27,168,138,0.25), rgba(27,168,138,0.08));
+    border: 1px solid var(--border-bright);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+    transition: transform 0.4s, box-shadow 0.4s;
+  }
+  .service-card:hover .service-icon {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 8px 24px rgba(27,168,138,0.3);
+  }
+  .service-title {
+    font-family: var(--font-main);
+    font-size: 1.15rem; font-weight: 700;
+    margin-bottom: 12px; color: var(--text);
+  }
+  .service-desc {
+    font-size: 0.9rem; line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .service-tag {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px 12px;
+    font-size: 0.72rem; color: var(--teal); letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .service-card .corner-glow {
+    position: absolute; bottom: -20px; right: -20px;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(27,168,138,0.3), transparent 70%);
+    border-radius: 50%;
+    transition: all 0.5s;
+  }
+  .service-card:hover .corner-glow { width: 120px; height: 120px; }
+
+  /* ===== WORKS ===== */
+  #works {
+    padding: 120px clamp(20px, 8vw, 140px);
+    background: var(--bg);
+  }
+  .works-header { margin-bottom: 72px; }
+
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 28px;
+  }
+  .work-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.45s cubic-bezier(0.23,1,0.32,1),
+                border-color 0.4s, box-shadow 0.45s;
+    cursor: none;
+  }
+  .work-card:hover {
+    transform: translateY(-12px) scale(1.01);
+    border-color: var(--border-bright);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 40px rgba(27,168,138,0.1);
+  }
+  .work-preview {
+    position: relative; height: 220px; overflow: hidden;
+    background: linear-gradient(135deg, var(--slate), var(--bg2));
+  }
+  .work-preview img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.23,1,0.32,1), filter 0.4s;
+    filter: brightness(0.85);
+  }
+  .work-card:hover .work-preview img {
+    transform: scale(1.08);
+    filter: brightness(1);
+  }
+  .work-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,14,18,0.9) 0%, rgba(8,14,18,0.2) 60%, transparent 100%);
+    display: flex; align-items: flex-end; padding: 20px;
+    gap: 10px;
+  }
+  .work-badge {
+    background: rgba(27,168,138,0.2);
+    border: 1px solid var(--border-bright);
+    backdrop-filter: blur(8px);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: 0.7rem; color: var(--teal-light);
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .work-actions {
+    position: absolute; inset: 0;
+    background: rgba(8,14,18,0.7);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px;
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .work-card:hover .work-actions { opacity: 1; }
+  .action-btn {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 50%; width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: var(--teal-light);
+    transition: all 0.3s;
+    transform: translateY(10px);
+  }
+  .work-card:hover .action-btn { transform: translateY(0); }
+  .action-btn:nth-child(2) { transition-delay: 0.05s; }
+  .action-btn:nth-child(3) { transition-delay: 0.1s; }
+  .action-btn:hover {
+    background: var(--teal-dark);
+    border-color: var(--teal-light);
+    transform: scale(1.1) translateY(0) !important;
+    box-shadow: 0 8px 20px rgba(27,168,138,0.4);
+  }
+
+  .work-info { padding: 24px; }
+  .work-title {
+    font-family: var(--font-main); font-size: 1.1rem; font-weight: 700;
+    margin-bottom: 8px; color: var(--text);
+    transition: color 0.3s;
+  }
+  .work-card:hover .work-title { color: var(--teal-light); }
+  .work-desc {
+    font-size: 0.87rem; line-height: 1.65; color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .work-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .wtag {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 100px; padding: 3px 10px;
+    font-size: 0.7rem; color: var(--teal); letter-spacing: 0.08em;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(4,10,14,0.92);
+    backdrop-filter: blur(20px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: 20px;
+    max-width: 800px; width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(30px) scale(0.97);
+    transition: transform 0.45s cubic-bezier(0.23,1,0.32,1);
+    padding: 40px;
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+  .modal-close {
+    background: none; border: 1px solid var(--border);
+    color: var(--text-dim); width: 36px; height: 36px;
+    border-radius: 50%; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    float: right; margin-bottom: 20px;
+    transition: all 0.3s;
+  }
+  .modal-close:hover { border-color: var(--teal); color: var(--teal-light); transform: rotate(90deg); }
+  .modal-img { width: 100%; border-radius: 12px; margin-bottom: 24px; }
+  .modal-title { font-family: var(--font-main); font-size: 1.6rem; font-weight: 700; margin-bottom: 12px; }
+  .modal-desc { color: var(--text-dim); line-height: 1.7; margin-bottom: 24px; }
+  .modal-links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .modal-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface2); border: 1px solid var(--border-bright);
+    border-radius: 8px; padding: 10px 20px;
+    font-size: 0.85rem; font-weight: 600; color: var(--teal-light);
+    transition: all 0.3s;
+  }
+  .modal-link:hover { background: var(--teal-dark); color: #fff; transform: translateY(-2px); }
+
+  /* ===== CONTACT ===== */
+  #contact {
+    padding: 120px clamp(20px, 8vw, 140px);
+    background: var(--bg2);
+    position: relative;
+  }
+  #contact::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(27,168,138,0.06), transparent 70%);
+    pointer-events: none;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: start;
+    margin-top: 60px;
+  }
+
+  .contact-item {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 24px;
+    transition: all 0.35s; margin-bottom: 14px;
+    backdrop-filter: blur(10px);
+  }
+  .contact-item:hover { border-color: var(--border-bright); transform: translateX(8px); }
+  .contact-icon {
+    width: 44px; height: 44px; min-width: 44px;
+    background: var(--surface2); border: 1px solid var(--border-bright);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .contact-label { font-size: 0.75rem; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+  .contact-value { font-size: 0.95rem; font-weight: 500; color: var(--text); }
+  .contact-value a { transition: color 0.3s; }
+  .contact-value a:hover { color: var(--teal-light); }
+
+  .social-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .social-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 20px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 10px; text-align: center;
+    transition: all 0.4s;
+    backdrop-filter: blur(10px);
+  }
+  .social-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(27,168,138,0.1);
+    background: rgba(27,168,138,0.1);
+  }
+  .social-icon { font-size: 2rem; }
+  .social-name { font-family: var(--font-main); font-size: 0.9rem; font-weight: 700; }
+  .social-handle { font-size: 0.78rem; color: var(--teal); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 32px clamp(20px, 8vw, 140px);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--text-faint); }
+  .footer-lang { display: flex; gap: 6px; }
+
+  /* ===== ARABIC RTL ===== */
+  [lang="ar"] body, body.lang-ar {
+    font-family: var(--font-ar);
+    direction: rtl;
+  }
+  body.lang-ar .section-label::before { order: 1; }
+  body.lang-ar .section-label { flex-direction: row-reverse; }
+  body.lang-ar .contact-item:hover { transform: translateX(-8px); }
+  body.lang-ar .nav-links { flex-direction: row-reverse; }
+
+  /* ===== BIG DECORATIVE NUMBERS ===== */
+  .big-num {
+    position: absolute; font-family: var(--font-main);
+    font-size: clamp(120px, 20vw, 260px); font-weight: 800;
+    color: rgba(27,168,138,0.03); line-height: 1;
+    pointer-events: none; user-select: none;
+    letter-spacing: -0.05em;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media (max-width: 600px) {
+    .works-grid, .services-grid { grid-template-columns: 1fr; }
+    .social-grid { grid-template-columns: 1fr 1fr; }
+    .hero-cta { flex-direction: column; align-items: center; }
+    footer { flex-direction: column; text-align: center; }
+  }
+
+  /* ===== GLITCH EFFECT on logo hover ===== */
+  @keyframes glitch1 {
+    0%, 100% { clip-path: inset(0 0 85% 0); transform: translateX(-2px); }
+    25% { clip-path: inset(40% 0 45% 0); transform: translateX(2px); }
+    50% { clip-path: inset(80% 0 5% 0); transform: translateX(-2px); }
+    75% { clip-path: inset(10% 0 75% 0); transform: translateX(2px); }
+  }
+
+  /* ===== LOADING SCREEN ===== */
+  #loader {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 24px;
+    transition: opacity 0.8s 0.3s, visibility 0.8s 0.3s;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+  .loader-logo { height: 72px; animation: breathe 1.5s ease-in-out infinite; }
+  @keyframes breathe {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(27,168,138,0.4)); }
+    50% { filter: drop-shadow(0 0 24px rgba(36,212,175,0.7)); }
+  }
+  .loader-bar {
+    width: 180px; height: 2px;
+    background: var(--bg3); border-radius: 2px; overflow: hidden;
+  }
+  .loader-fill {
+    height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--teal-dark), var(--teal-light));
+    border-radius: 2px;
+    animation: loadFill 1.8s ease-in-out forwards;
+  }
+  @keyframes loadFill { to { width: 100%; } }
+  .loader-text { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--text-faint); text-transform: uppercase; }
+
+  /* ===== NOISE TEXTURE ===== */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9997;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  /* ===== TILT CARDS ===== */
+  .tilt { transform-style: preserve-3d; }
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <img class="loader-logo" src="/mnt/user-data/uploads/Gemini_Generated_Image_yjeem0yjeem0yjee-Photoroom.png" alt="Dijivoo"/>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-text" data-tr="Yükleniyor..." data-ar="جاري التحميل..." data-en="Loading...">Yükleniyor...</div>
+</div>
+
+<!-- Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- BG Canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#hero"><img class="nav-logo" src="/mnt/user-data/uploads/Gemini_Generated_Image_yjeem0yjeem0yjee-Photoroom.png" alt="Dijivoo"/></a>
+  <ul class="nav-links">
+    <li><a href="#hero" data-tr="Ana Sayfa" data-ar="الرئيسية" data-en="Home">Ana Sayfa</a></li>
+    <li><a href="#services" data-tr="Hizmetler" data-ar="خدماتنا" data-en="Services">Hizmetler</a></li>
+    <li><a href="#works" data-tr="Çalışmalar" data-ar="أعمالنا" data-en="Works">Çalışmalar</a></li>
+    <li><a href="#contact" data-tr="İletişim" data-ar="تواصل معنا" data-en="Contact">İletişim</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="tr">TR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero" data-tr="Ana Sayfa" data-ar="الرئيسية" data-en="Home">Ana Sayfa</a>
+  <a href="#services" data-tr="Hizmetler" data-ar="خدماتنا" data-en="Services">Hizmetler</a>
+  <a href="#works" data-tr="Çalışmalar" data-ar="أعمالنا" data-en="Works">Çalışmalar</a>
+  <a href="#contact" data-tr="İletişim" data-ar="تواصل معنا" data-en="Contact">İletişim</a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ====== HERO ====== -->
+<section id="hero">
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    <span data-tr="Dijital Dönüşüm Ajansı" data-ar="وكالة التحول الرقمي" data-en="Digital Transformation Agency">Dijital Dönüşüm Ajansı</span>
+  </div>
+  <h1 class="hero-title">
+    <span data-tr="Dijital Dünyaya" data-ar="افتح أبوابك" data-en="Open Your Doors">Dijital Dünyaya</span><br/>
+    <span class="accent" data-tr="Açılan Kapınız" data-ar="للعالم الرقمي" data-en="To the Digital World">Açılan Kapınız</span>
+  </h1>
+  <p class="hero-desc" data-tr="İşletmenizi dijital dünyada güçlü bir şekilde konumlandırıyoruz. Web siteleri, yönetim sistemleri, dijital menüler ve çok daha fazlasıyla markanızı büyütüyoruz." data-ar="نضع عملك في مكانة قوية في العالم الرقمي. ننمّي علامتك التجارية بمواقع الويب وأنظمة الإدارة والقوائم الرقمية وأكثر بكثير." data-en="We position your business powerfully in the digital world. We grow your brand with websites, management systems, digital menus and much more.">
+    İşletmenizi dijital dünyada güçlü bir şekilde konumlandırıyoruz. Web siteleri, yönetim sistemleri, dijital menüler ve çok daha fazlasıyla markanızı büyütüyoruz.
+  </p>
+  <div class="hero-cta">
+    <a href="#services" class="btn-primary"><span data-tr="Hizmetlerimizi Keşfet" data-ar="اكتشف خدماتنا" data-en="Explore Services">Hizmetlerimizi Keşfet</span></a>
+    <a href="#works" class="btn-ghost" data-tr="Çalışmalarımız" data-ar="أعمالنا" data-en="Our Works">Çalışmalarımız</a>
+  </div>
+  <div class="scroll-hint">
+    <span data-tr="Kaydır" data-ar="اسحب للأسفل" data-en="Scroll">Kaydır</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ====== SERVICES ====== -->
+<section id="services">
+  <div class="big-num" style="top:-40px;left:-20px;">01</div>
+  <div class="services-header reveal">
+    <div class="section-label" data-tr="Ne Yapıyoruz" data-ar="ماذا نفعل" data-en="What We Do">Ne Yapıyoruz</div>
+    <h2 class="section-title"><span data-tr="Hizmetlerimiz" data-ar="خدماتنا" data-en="Our Services">Hizmetlerimiz</span></h2>
+    <p class="section-sub" data-tr="İşletmenizin ihtiyaçlarına özel, kapsamlı dijital çözümler sunuyoruz." data-ar="نقدم حلولاً رقمية شاملة ومخصصة لاحتياجات عملك." data-en="We offer comprehensive digital solutions tailored to your business needs.">
+      İşletmenizin ihtiyaçlarına özel, kapsamlı dijital çözümler sunuyoruz.
+    </p>
+  </div>
+
+  <!-- ===== SERVICES DATA — EASY TO EDIT ===== -->
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ====== WORKS ====== -->
+<section id="works">
+  <div class="big-num" style="top:-40px;right:-20px;">02</div>
+  <div class="works-header reveal">
+    <div class="section-label" data-tr="Portföy" data-ar="معرض الأعمال" data-en="Portfolio">Portföy</div>
+    <h2 class="section-title"><span data-tr="Çalışmalarımız" data-ar="أعمالنا" data-en="Our Works">Çalışmalarımız</span></h2>
+    <p class="section-sub" data-tr="Müşterilerimiz için hayata geçirdiğimiz projelerden seçkiler." data-ar="مختارات من المشاريع التي نفذناها لعملائنا." data-en="Selections from the projects we have realized for our clients.">
+      Müşterilerimiz için hayata geçirdiğimiz projelerden seçkiler.
+    </p>
+  </div>
+  <div class="works-grid" id="worksGrid"></div>
+</section>
+
+<!-- Work Modal -->
+<div class="modal-overlay" id="workModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div style="clear:both"></div>
+    <img class="modal-img" id="modalImg" src="" alt=""/>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-links" id="modalLinks"></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ====== CONTACT ====== -->
+<section id="contact">
+  <div class="big-num" style="bottom:-60px;left:-20px;">03</div>
+  <div class="reveal">
+    <div class="section-label" data-tr="Bize Ulaşın" data-ar="تواصل معنا" data-en="Get In Touch">Bize Ulaşın</div>
+    <h2 class="section-title"><span data-tr="İletişim" data-ar="اتصل بنا" data-en="Contact">İletişim</span></h2>
+    <p class="section-sub" data-tr="Projenizi konuşmak için bizi dilediğiniz kanaldan ulaşabilirsiniz." data-ar="يمكنك التواصل معنا عبر أي قناة لمناقشة مشروعك." data-en="Reach us through any channel to discuss your project.">
+      Projenizi konuşmak için bizi dilediğiniz kanaldan ulaşabilirsiniz.
+    </p>
+  </div>
+  <div class="contact-grid">
+    <div id="contactItems" class="reveal delay-2"></div>
+    <div id="socialItems" class="reveal delay-3"></div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="footer-copy">
+    <span>© 2025 Dijivoo.</span>
+    <span data-tr=" Tüm hakları saklıdır." data-ar=" جميع الحقوق محفوظة." data-en=" All rights reserved."> Tüm hakları saklıdır.</span>
+  </div>
+  <div class="footer-lang lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+</footer>
+
+<script>
+/* ==========================================
+   SITE DATA — EDIT HERE EASILY
+   ========================================== */
+
+const SERVICES = [
+  {
+    icon: '🛒',
+    tr: { title: 'Dijital Mağazalar', desc: 'E-ticaret sitesi kurulumu, ürün yönetimi ve online satış altyapısı. Müşterilerinize 7/24 ulaşın.', tag: 'E-Ticaret' },
+    ar: { title: 'المتاجر الرقمية', desc: 'إنشاء متاجر إلكترونية وإدارة المنتجات وبنية تحتية للمبيعات عبر الإنترنت. تواصل مع عملائك على مدار الساعة.', tag: 'التجارة الإلكترونية' },
+    en: { title: 'Digital Stores', desc: 'E-commerce site setup, product management, and online sales infrastructure. Reach your customers 24/7.', tag: 'E-Commerce' }
+  },
+  {
+    icon: '📦',
+    tr: { title: 'Ürün Yönetim Sistemleri', desc: 'Stok takibi, sipariş yönetimi ve raporlama. İşletmenizi verimli yönetin.', tag: 'Yönetim Sistemi' },
+    ar: { title: 'أنظمة إدارة المنتجات', desc: 'تتبع المخزون وإدارة الطلبات وإعداد التقارير. أدر عملك بكفاءة عالية.', tag: 'نظام إدارة' },
+    en: { title: 'Product Management Systems', desc: 'Stock tracking, order management, and reporting. Manage your business efficiently.', tag: 'Management' }
+  },
+  {
+    icon: '🍽️',
+    tr: { title: 'Dijital Menüler', desc: 'Restoran ve kafeler için QR kodlu dijital menüler. Güncel tutması kolay, görsel açıdan çarpıcı.', tag: 'Restoran & Kafe' },
+    ar: { title: 'القوائم الرقمية', desc: 'قوائم رقمية بالرمز QR للمطاعم والمقاهي. سهلة التحديث ومثيرة بصرياً.', tag: 'مطاعم وكافيهات' },
+    en: { title: 'Digital Menus', desc: 'QR-coded digital menus for restaurants and cafes. Easy to update and visually striking.', tag: 'Restaurant & Cafe' }
+  },
+  {
+    icon: '📅',
+    tr: { title: 'Randevu Sistemleri', desc: 'Klinik, salon ve hizmet sektörü için online randevu ve takvim yönetim sistemleri.', tag: 'Randevu' },
+    ar: { title: 'أنظمة المواعيد', desc: 'أنظمة حجز المواعيد وإدارة التقويم للعيادات والصالونات وقطاع الخدمات.', tag: 'حجوزات' },
+    en: { title: 'Appointment Systems', desc: 'Online booking and calendar management systems for clinics, salons and service sectors.', tag: 'Booking' }
+  },
+  {
+    icon: '🌐',
+    tr: { title: 'Tam Dijital Dönüşüm', desc: 'Fiziksel işletmenizi dijital dünyaya taşıyoruz. Web sitesi, sosyal medya hesapları, Google Maps kaydı ve marka kimliği.', tag: 'Dönüşüm' },
+    ar: { title: 'التحول الرقمي الكامل', desc: 'ننقل عملك التقليدي إلى العالم الرقمي. موقع إلكتروني وحسابات تواصل اجتماعي وتسجيل خرائط جوجل وهوية العلامة التجارية.', tag: 'تحول رقمي' },
+    en: { title: 'Full Digital Transformation', desc: 'We bring your physical business to the digital world. Website, social media accounts, Google Maps listing and brand identity.', tag: 'Transformation' }
+  },
+  {
+    icon: '📱',
+    tr: { title: 'Sosyal Medya Yönetimi', desc: 'Instagram, TikTok ve diğer platformlarda içerik üretimi, hesap yönetimi ve büyüme stratejisi.', tag: 'Sosyal Medya' },
+    ar: { title: 'إدارة وسائل التواصل الاجتماعي', desc: 'إنتاج محتوى وإدارة حسابات واستراتيجية نمو على إنستغرام وتيك توك والمنصات الأخرى.', tag: 'سوشيال ميديا' },
+    en: { title: 'Social Media Management', desc: 'Content creation, account management and growth strategy on Instagram, TikTok and other platforms.', tag: 'Social Media' }
+  }
+];
+
+const WORKS = [
+  {
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80',
+    tags: ['E-Ticaret', 'Web'],
+    videoUrl: '',
+    codeUrl: '',
+    photosUrl: '',
+    tr: { title: 'Moda Butik Mağazası', desc: 'Tam kapsamlı e-ticaret sitesi, ürün yönetimi ve ödeme entegrasyonu ile.' },
+    ar: { title: 'متجر البوتيك الأزياء', desc: 'موقع تجارة إلكترونية متكامل مع إدارة المنتجات وتكامل الدفع.' },
+    en: { title: 'Fashion Boutique Store', desc: 'Full e-commerce site with product management and payment integration.' }
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80',
+    tags: ['Dijital Menü', 'QR'],
+    videoUrl: '',
+    codeUrl: '',
+    photosUrl: '',
+    tr: { title: 'Akdeniz Mutfağı Restoran', desc: 'QR kodlu interaktif dijital menü, filtreleme ve dil desteği ile.' },
+    ar: { title: 'مطعم المطبخ المتوسطي', desc: 'قائمة رقمية تفاعلية بالرمز QR مع التصفية ودعم اللغات.' },
+    en: { title: 'Mediterranean Restaurant', desc: 'Interactive QR-coded digital menu with filtering and language support.' }
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80',
+    tags: ['Randevu', 'Klinik'],
+    videoUrl: '',
+    codeUrl: '',
+    photosUrl: '',
+    tr: { title: 'Diş Kliniği Randevu Sistemi', desc: 'Hasta randevu yönetimi, SMS hatırlatma ve doktor takvim paneli.' },
+    ar: { title: 'نظام مواعيد عيادة أسنان', desc: 'إدارة مواعيد المرضى، تذكير برسائل SMS، ولوحة تحكم لجدول الطبيب.' },
+    en: { title: 'Dental Clinic Booking System', desc: 'Patient appointment management, SMS reminders and doctor calendar dashboard.' }
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1542744094-3a31f272c490?w=600&q=80',
+    tags: ['Dönüşüm', 'Marka'],
+    videoUrl: '',
+    codeUrl: '',
+    photosUrl: '',
+    tr: { title: 'Yerel Mobilyacı Dijitalleşme', desc: 'Google Maps kaydı, sosyal medya, web sitesi ve ürün kataloğu.' },
+    ar: { title: 'رقمنة محل أثاث محلي', desc: 'تسجيل خرائط جوجل وسوشيال ميديا وموقع إلكتروني وكتالوج منتجات.' },
+    en: { title: 'Local Furniture Shop Digitalization', desc: 'Google Maps listing, social media, website and product catalogue.' }
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80',
+    tags: ['SaaS', 'Stok'],
+    videoUrl: '',
+    codeUrl: '',
+    photosUrl: '',
+    tr: { title: 'Market Stok Yönetim Sistemi', desc: 'Gerçek zamanlı stok takibi, barkod okuyucu entegrasyonu ve raporlama.' },
+    ar: { title: 'نظام إدارة مخزون السوبر ماركت', desc: 'تتبع المخزون الفوري وتكامل قارئ الباركود وإعداد التقارير.' },
+    en: { title: 'Market Inventory Management System', desc: 'Real-time stock tracking, barcode scanner integration and reporting.' }
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80',
+    tags: ['Sosyal Medya', 'Güzellik'],
+    videoUrl: '',
+    codeUrl: '',
+    photosUrl: '',
+    tr: { title: 'Güzellik Salonu Dijital Varlığı', desc: 'Instagram & TikTok yönetimi, görsel içerik üretimi ve randevu entegrasyonu.' },
+    ar: { title: 'الحضور الرقمي لصالون التجميل', desc: 'إدارة إنستغرام وتيك توك وإنتاج محتوى مرئي وتكامل الحجوزات.' },
+    en: { title: 'Beauty Salon Digital Presence', desc: 'Instagram & TikTok management, visual content production and booking integration.' }
+  }
+];
+
+/* ===== CONTACT & SOCIAL DATA — EASY TO EDIT ===== */
+const CONTACT_INFO = {
+  company: 'Dijivoo',
+  phone: '+90 5XX XXX XX XX',
+  whatsapp: '+90 5XX XXX XX XX',
+  email: 'info@dijivoo.com',
+  instagram: '@dijivoo',
+  tiktok: '@dijivoo',
+  instagramUrl: 'https://instagram.com/dijivoo',
+  tiktokUrl: 'https://tiktok.com/@dijivoo',
+  whatsappUrl: 'https://wa.me/905XXXXXXXXX'
+};
+
+/* ==========================================
+   LANGUAGE SYSTEM
+   ========================================== */
+let currentLang = 'tr';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.body.classList.toggle('lang-ar', lang === 'ar');
+  
+  // Update font for Arabic
+  document.body.style.fontFamily = lang === 'ar' 
+    ? "var(--font-ar)" 
+    : "var(--font-body)";
+
+  // Update all [data-tr/ar/en] elements
+  document.querySelectorAll(`[data-${lang}]`).forEach(el => {
+    el.textContent = el.getAttribute(`data-${lang}`);
+  });
+
+  // Update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  // Re-render dynamic content
+  renderServices();
+  renderWorks();
+  renderContact();
+}
+
+/* ==========================================
+   RENDER SERVICES
+   ========================================== */
+function renderServices() {
+  const grid = document.getElementById('servicesGrid');
+  grid.innerHTML = SERVICES.map((s, i) => {
+    const d = s[currentLang] || s.tr;
+    return `
+    <div class="service-card tilt reveal delay-${(i % 3) + 1}">
+      <div class="service-icon">${s.icon}</div>
+      <div class="service-title">${d.title}</div>
+      <div class="service-desc">${d.desc}</div>
+      <span class="service-tag">${d.tag}</span>
+      <div class="corner-glow"></div>
+    </div>`;
+  }).join('');
+  observeReveal();
+  initTilt();
+}
+
+/* ==========================================
+   RENDER WORKS
+   ========================================== */
+function renderWorks() {
+  const grid = document.getElementById('worksGrid');
+  grid.innerHTML = WORKS.map((w, i) => {
+    const d = w[currentLang] || w.tr;
+    const tagsHtml = w.tags.map(t => `<span class="wtag">${t}</span>`).join('');
+    return `
+    <div class="work-card reveal delay-${(i % 3) + 1}" data-index="${i}">
+      <div class="work-preview">
+        <img src="${w.image}" alt="${d.title}" loading="lazy"/>
+        <div class="work-overlay">
+          ${tagsHtml}
+        </div>
+        <div class="work-actions">
+          ${w.videoUrl ? `<a href="${w.videoUrl}" target="_blank" class="action-btn" title="Video">▶</a>` : ''}
+          ${w.photosUrl ? `<a href="${w.photosUrl}" target="_blank" class="action-btn" title="Photos">🖼</a>` : ''}
+          ${w.codeUrl ? `<a href="${w.codeUrl}" target="_blank" class="action-btn" title="Code">&lt;/&gt;</a>` : ''}
+          <button class="action-btn" onclick="openModal(${i})" title="Details">🔍</button>
+        </div>
+      </div>
+      <div class="work-info">
+        <div class="work-title">${d.title}</div>
+        <div class="work-desc">${d.desc}</div>
+        <div class="work-tags">${tagsHtml}</div>
+      </div>
+    </div>`;
+  }).join('');
+  observeReveal();
+}
+
+/* ==========================================
+   MODAL
+   ========================================== */
+function openModal(idx) {
+  const w = WORKS[idx];
+  const d = w[currentLang] || w.tr;
+  document.getElementById('modalImg').src = w.image;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalDesc').textContent = d.desc;
+  const links = document.getElementById('modalLinks');
+  links.innerHTML = '';
+  if (w.videoUrl) links.innerHTML += `<a href="${w.videoUrl}" target="_blank" class="modal-link">▶ Video</a>`;
+  if (w.photosUrl) links.innerHTML += `<a href="${w.photosUrl}" target="_blank" class="modal-link">🖼 Fotoğraflar</a>`;
+  if (w.codeUrl) links.innerHTML += `<a href="${w.codeUrl}" target="_blank" class="modal-link">&lt;/&gt; Kaynak Kod</a>`;
+  document.getElementById('workModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').onclick = closeModal;
+document.getElementById('workModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('workModal')) closeModal();
+});
+function closeModal() {
+  document.getElementById('workModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ==========================================
+   RENDER CONTACT
+   ========================================== */
+function renderContact() {
+  const labels = {
+    tr: { company: 'Şirket', phone: 'Telefon', whatsapp: 'WhatsApp', email: 'E-Posta', follow: 'Sosyal Medya' },
+    ar: { company: 'الشركة', phone: 'الهاتف', whatsapp: 'واتساب', email: 'البريد الإلكتروني', follow: 'تابعنا على' },
+    en: { company: 'Company', phone: 'Phone', whatsapp: 'WhatsApp', email: 'Email', follow: 'Social Media' }
+  };
+  const L = labels[currentLang] || labels.tr;
+  document.getElementById('contactItems').innerHTML = `
+    <div class="contact-item">
+      <div class="contact-icon">🏢</div>
+      <div><div class="contact-label">${L.company}</div><div class="contact-value">${CONTACT_INFO.company}</div></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">📞</div>
+      <div><div class="contact-label">${L.phone}</div><div class="contact-value"><a href="tel:${CONTACT_INFO.phone}">${CONTACT_INFO.phone}</a></div></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">💬</div>
+      <div><div class="contact-label">${L.whatsapp}</div><div class="contact-value"><a href="${CONTACT_INFO.whatsappUrl}" target="_blank">${CONTACT_INFO.whatsapp}</a></div></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-icon">✉️</div>
+      <div><div class="contact-label">${L.email}</div><div class="contact-value"><a href="mailto:${CONTACT_INFO.email}">${CONTACT_INFO.email}</a></div></div>
+    </div>
+  `;
+  document.getElementById('socialItems').innerHTML = `
+    <div style="margin-bottom:20px;font-family:var(--font-main);font-size:.9rem;font-weight:700;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;">${L.follow}</div>
+    <div class="social-grid">
+      <a href="${CONTACT_INFO.instagramUrl}" target="_blank" class="social-card">
+        <div class="social-icon">📸</div>
+        <div class="social-name">Instagram</div>
+        <div class="social-handle">${CONTACT_INFO.instagram}</div>
+      </a>
+      <a href="${CONTACT_INFO.tiktokUrl}" target="_blank" class="social-card">
+        <div class="social-icon">🎵</div>
+        <div class="social-name">TikTok</div>
+        <div class="social-handle">${CONTACT_INFO.tiktok}</div>
+      </a>
+      <a href="${CONTACT_INFO.whatsappUrl}" target="_blank" class="social-card">
+        <div class="social-icon">💬</div>
+        <div class="social-name">WhatsApp</div>
+        <div class="social-handle">${CONTACT_INFO.whatsapp}</div>
+      </a>
+      <a href="mailto:${CONTACT_INFO.email}" class="social-card">
+        <div class="social-icon">✉️</div>
+        <div class="social-name">Email</div>
+        <div class="social-handle">${CONTACT_INFO.email}</div>
+      </a>
+    </div>
+  `;
+}
+
+/* ==========================================
+   SCROLL REVEAL
+   ========================================== */
+function observeReveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+/* ==========================================
+   CANVAS BACKGROUND — NETWORK PARTICLES
+   ========================================== */
+function initCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const N = 70;
+  for (let i = 0; i < N; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 2 + 1
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // Update
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+    });
+    // Lines
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 140) {
+          const alpha = (1 - dist / 140) * 0.35;
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(27,168,138,${alpha})`;
+          ctx.lineWidth = 0.7;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    // Dots
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(27,168,138,0.5)';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+/* ==========================================
+   CUSTOM CURSOR
+   ========================================== */
+function initCursor() {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    rx += (e.clientX - rx) * 0.12;
+    ry += (e.clientY - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+  });
+  function smoothRing() {
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(smoothRing);
+  }
+  smoothRing();
+}
+
+/* ==========================================
+   TILT EFFECT ON CARDS
+   ========================================== */
+function initTilt() {
+  document.querySelectorAll('.tilt').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const rx = -(e.clientY - cy) / rect.height * 10;
+      const ry = (e.clientX - cx) / rect.width * 10;
+      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-8px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+/* ==========================================
+   SCROLL PROGRESS & NAV
+   ========================================== */
+function initScroll() {
+  const bar = document.getElementById('scroll-progress');
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    bar.style.width = (scrolled * 100) + '%';
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+}
+
+/* ==========================================
+   HAMBURGER MENU
+   ========================================== */
+function initHamburger() {
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  });
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      menu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
+/* ==========================================
+   LANG BUTTONS
+   ========================================== */
+function initLangButtons() {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+}
+
+/* ==========================================
+   LOADER
+   ========================================== */
+function initLoader() {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 2000);
+}
+
+/* ==========================================
+   FLOATING GLOW ON MOUSE (HERO)
+   ========================================== */
+function initMouseGlow() {
+  const hero = document.getElementById('hero');
+  hero.addEventListener('mousemove', e => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    hero.style.setProperty('--mx', x + '%');
+    hero.style.setProperty('--my', y + '%');
+  });
+}
+
+/* ==========================================
+   INIT
+   ========================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  renderServices();
+  renderWorks();
+  renderContact();
+  observeReveal();
+  initCanvas();
+  initCursor();
+  initScroll();
+  initHamburger();
+  initLangButtons();
+  initLoader();
+  initMouseGlow();
+  setLang('tr');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+[config.wallpaper]
+command = "swww"
+arguments = ["img", "--transition-type", "center", "--transition-step", "1", "--transition-fps", "120"]
+set = false
+
+# ── Waybar ────────────────────────────────────────────────
+[templates.waybar]
+input_path  = '~/.config/matugen/templates/colors.css'
+output_path = '~/.config/waybar/colors.css'
+
+# ── Hyprland ──────────────────────────────────────────────
+[templates.hyprland]
+input_path  = '~/.config/matugen/templates/hyprland-colors.conf'
+output_path = '~/.config/hypr/look/colors.conf'
+post_hook   = 'hyprctl reload'
+
+# ── GTK3 ──────────────────────────────────────────────────
+[templates.gtk3]
+input_path  = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
+
+# ── GTK4 ──────────────────────────────────────────────────
+[templates.gtk4]
+input_path  = '~/.config/matugen/templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/colors.css'
+
+# ── Kitty ─────────────────────────────────────────────────
+[templates.kitty]
+input_path  = '~/.config/matugen/templates/kitty-colors.conf'
+output_path = '~/.config/kitty/colors.conf'
+
+# ── Rofi ──────────────────────────────────────────────────
+[templates.rofi]
+input_path  = '~/.config/matugen/templates/rofi-colors.rasi'
+output_path = '~/.config/rofi/colors.rasi'
+
+# ── yazi ──────────────────────────────────────────────────
+[templates.yazi]
+input_path  = '~/.config/matugen/templates/yazi-theme.toml'
+output_path = '~/.config/yazi/theme.toml'
+
+
+# ── swaync ──────────────────────────────────────────────────
+[templates.swaync]
+input_path  = '~/.config/matugen/templates/swaync-colors.css'
+output_path = '~/.config/swaync/colors.css'
+post_hook   = 'swaync-client --reload-css'

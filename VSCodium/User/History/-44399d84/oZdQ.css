@@ -1,0 +1,10 @@
+@define-color bg rgba(46, 52, 64, 0.85); /* Slate Gray/Blue */
+@define-color text #eceff4; /* Snow White */
+@define-color text-dark #2e3440; /* Deep Slate */
+@define-color accent #88c0d0; /* Icy Cyan */
+@define-color clock #81a1c1; /* Frost Blue */
+@define-color network #a3be8c; /* Muted Green */
+@define-color audio #ebcb8b; /* Soft Yellow */
+@define-color bluetooth #8fbcbb; /* Seafoam */
+@define-color battery #a3be8c; /* Muted Green */
+@define-color battery-critical #bf616a; /* Soft Red */
