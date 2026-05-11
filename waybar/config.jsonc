@@ -17,9 +17,9 @@
     "modules-left": [
 		"clock",
 		"network",
-		"bluetooth"
+		"bluetooth",
 		//"custom/salah",
-		//"custom/pomodoro"
+		"custom/pomodoro"
 		
 	],
     "modules-center": [
@@ -62,4 +62,6 @@
 			"custom/lock_screen"
 		]
 	}
+
+
 }

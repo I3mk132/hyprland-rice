@@ -1,0 +1,422 @@
+/* Modern Professional Notification Center - Inspired by Android & Windows */
+/* Variables updated to match colors.css (Matugen) */
+
+* {
+  color: var(--on-background);
+  all: unset;
+  font-size: 14px;
+  font-family: "JetBrains Mono Nerd Font", "Segoe UI", sans-serif;
+  transition: all 250ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Transparent background for overlay */
+.blank-window {  
+  background: transparent;  
+}
+  
+/* ==================== CONTROL CENTER ==================== */
+
+.control-center {
+  background: var(--surface-container);
+  border-radius: 20px;
+  border: 1px solid var(--outline-variant);
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, .25),
+    0 0 1px rgba(0, 0, 0, .3),
+    inset 0 1px 0 rgba(255, 255, 255, .05);
+  margin: 12px;
+  padding: 0;
+}
+
+/* Header section */
+.control-center-header {
+  padding: 20px 20px 12px 20px;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+/* ==================== NOTIFICATIONS ==================== */
+
+.control-center .notification-row {
+  margin: 0;
+  padding: 8px 12px;
+}
+
+.control-center .notification-row .notification-background {
+  background: var(--surface-container-high);
+  border-radius: 14px;
+  margin: 4px 0;
+  padding: 0;
+  border: 1px solid var(--outline-variant);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.control-center .notification-row .notification-background:hover {
+  background: var(--surface-container-highest);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+}
+
+/* Critical notifications with accent */
+.control-center .notification-row .notification-background .notification.critical {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--error) 10%, transparent) 0%, transparent 100%);
+  border-left: 3px solid var(--error);
+  border-radius: 14px;
+}
+
+.control-center .notification-row .notification-background .notification.critical .notification-content {
+  color: var(--on-background);
+}
+
+/* Notification content spacing */
+.control-center .notification-row .notification-background .notification .notification-content {
+  margin: 0;
+  padding: 14px 16px;
+}
+
+.control-center .notification-row .notification-background .notification .notification-content .notification-body {
+  padding-top: 6px;
+  opacity: 0.85;
+  line-height: 1.4;
+}
+
+/* Notification actions */
+.control-center .notification-row .notification-background .notification > *:last-child > * {
+  min-height: auto;
+  padding: 8px 12px 12px 12px;
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  border-radius: 10px;
+  margin: 4px;
+  padding: 10px 18px;
+  font-weight: 500;
+  border: 1px solid var(--outline-variant);
+  min-height: 36px;
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:hover {
+  background: color-mix(in srgb, var(--primary-container) 80%, var(--primary));
+  border-color: var(--outline);
+  transform: scale(1.02);
+}
+
+.control-center .notification-row .notification-background .notification > *:last-child > * .notification-action:active {
+  background: var(--primary);
+  color: var(--on-primary);
+  transform: scale(0.98);
+}
+
+/* ==================== WIDGET TITLE / HEADER ==================== */
+
+.widget-title {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0;
+  padding: 20px 20px 8px 20px;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.widget-title button {
+  background: var(--surface-container-high);
+  border-radius: 10px;
+  padding: 6px 12px;
+  border: 1px solid var(--outline-variant);
+  font-weight: 500;
+  min-height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+}
+
+.widget-title button:hover {
+  background: var(--surface-container-highest);
+  border-color: var(--outline);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+
+.widget-title button:active {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  transform: scale(0.98);
+}
+
+/* ==================== QUICK SETTINGS BUTTONS ==================== */
+
+.widget-buttons-grid {
+  padding: 12px;
+  margin: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button {
+  margin: 4px;
+  background: var(--surface-container-high);
+  border-radius: 12px;
+  border: 1px solid var(--outline-variant);
+  min-height: 64px;
+  min-width: 64px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: var(--surface-container-highest);
+  border-color: var(--outline);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:active {
+  background: var(--primary-container);
+  border-color: var(--outline);
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .08);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:checked {
+  background: linear-gradient(135deg, var(--primary-container) 0%, color-mix(in srgb, var(--primary-container) 75%, transparent) 100%);
+  border-color: var(--outline);
+  color: var(--on-primary-container);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button label {
+  font-family: "JetBrains Mono Nerd Font";
+  font-size: 20px;
+  opacity: 0.7;
+  transition: transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover label {
+  transform: scale(1.1);
+}
+
+/* ==================== VOLUME & BACKLIGHT SLIDERS ==================== */
+
+.widget-volume {
+  background: transparent;
+  padding: 12px 20px 2px 20px;
+  margin: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.widget-backlight {
+  background: transparent;
+  padding: 2px 20px 12px 20px;
+  margin: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.widget-volume trough, 
+.widget-backlight trough {
+  background: var(--surface-variant);
+  border-radius: 12px;
+  min-height: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+.widget-volume highlight, 
+.widget-backlight highlight {
+  background: linear-gradient(90deg, var(--primary) 0%, color-mix(in srgb, var(--primary) 80%, transparent) 100%);
+  border-radius: 12px;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.widget-volume label, 
+.widget-backlight label {
+  font-size: 29px;
+  color: var(--on-surface-variant);
+  margin-right: 16px;
+  margin-left: 8px;
+  opacity: 0.7;
+}
+
+.widget-volume slider, 
+.widget-backlight slider {
+  background: white;
+  border-radius: 50%;
+  min-height: 18px;
+  min-width: 18px;
+  margin: -5px 0;
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, .2),
+    0 0 0 2px var(--primary);
+  transition: all 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-volume slider:hover, 
+.widget-backlight slider:hover {
+  min-height: 20px;
+  min-width: 20px;
+  box-shadow: 
+    0 3px 10px rgba(0, 0, 0, .3),
+    0 0 0 3px var(--primary);
+}
+
+/* ==================== DO NOT DISTURB ==================== */
+
+.widget-dnd {
+  margin: 0;
+  padding: 16px 20px 5px 20px;
+  background: transparent;
+  border-radius: 0;
+  border-top: 1px solid var(--outline-variant);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.widget-dnd > switch {
+  background: var(--surface-variant);
+  border-radius: 24px;
+  border: 1px solid var(--outline-variant);
+  padding: 3px;
+  min-width: 48px;
+  min-height: 28px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+.widget-dnd > switch:hover {
+  background: color-mix(in srgb, var(--surface-variant) 70%, var(--secondary));
+  border-color: var(--outline);
+}
+
+.widget-dnd > switch:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, .1),
+    0 0 8px color-mix(in srgb, var(--primary) 40%, transparent);
+}
+
+.widget-dnd > switch:checked:hover {
+  background: color-mix(in srgb, var(--primary) 90%, var(--on-primary));
+}
+
+.widget-dnd > switch slider {
+  background: white;
+  border-radius: 50%;
+  min-width: 22px;
+  min-height: 22px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+  transition: all 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-dnd > switch:checked slider {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+}
+
+/* ==================== MEDIA PLAYER ==================== */
+
+.widget-mpris {
+  background: transparent;
+  border-radius: 0;
+  color: var(--on-surface);
+  margin: 0px 0px -14px 0px;
+  padding: 12px;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.widget-mpris-player {
+  background: linear-gradient(135deg, var(--surface-container-high) 0%, var(--surface-container) 100%);
+  border: 1px solid var(--outline-variant);
+  border-radius: 16px;
+  padding: 14px;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget-mpris .widget-mpris-player .mpris-background {
+  filter: blur(30px) brightness(0.6);
+  opacity: 0.6;
+  border-radius: 16px;
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+}
+
+.widget-mpris-album-art {
+  border-radius: 12px;
+  border: 1px solid var(--outline-variant);
+  margin: 0 12px 12px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+  min-width: 80px;
+  min-height: 80px;
+}
+
+.widget-mpris-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--on-surface);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.widget-mpris-subtitle {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--on-surface-variant);
+  opacity: 0.7;
+  line-height: 1.3;
+}
+
+.widget-mpris button {
+  color: var(--on-surface);
+  opacity: 0.7;
+  margin: 12px 6px 0 6px;
+  min-width: 47px;
+  min-height: 10px;
+  border-radius: 50%;
+  background: var(--surface-container-high);
+  transition: all 150ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.widget-mpris button:hover {
+  background: var(--surface-container-highest);
+  border-color: var(--outline);
+  transform: scale(1.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+}
+
+.widget-mpris button:active {
+  transform: scale(0.95);
+}
+
+/* Play/Pause button - larger and more prominent */
+.widget-mpris button:nth-child(3) {
+  min-width: 48px;
+  min-height: 48px;
+  background: var(--primary-container);
+  border-color: var(--outline-variant);
+}
+
+.widget-mpris button:nth-child(3):hover {
+  background: color-mix(in srgb, var(--primary-container) 70%, var(--primary));
+  border-color: var(--outline);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification-row {
+  animation: slide-in 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+}

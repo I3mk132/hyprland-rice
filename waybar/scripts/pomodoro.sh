@@ -1,146 +1,111 @@
-#!/usr/bin/env bash
-# =============================================================
-#  pomodoro.sh — Waybar Pomodoro Module
-#  Usage:
-#    pomodoro.sh status        → JSON for Waybar (stdout)
-#    pomodoro.sh start 30      → start 30-min timer
-#    pomodoro.sh start 60      → start 60-min timer
-#    pomodoro.sh start 120     → start 120-min timer
-#    pomodoro.sh stop          → stop/reset timer
-#    pomodoro.sh toggle        → start default (25min) or stop
-# =============================================================
+#!/bin/bash
 
-STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/pomodoro_state"
+# Pomodoro timer for Waybar
+# State file
+STATE_FILE="/tmp/pomodoro_state"
+PID_FILE="/tmp/pomodoro_pid"
 
-# ── helpers ────────────────────────────────────────────────────
-now() { date +%s; }
+start_timer() {
+    local seconds=$1
+    local label=$2
 
-save_state() {
-    # end_time minutes label
-    echo "$1 $2 $3" > "$STATE_FILE"
+    # Kill any existing timer
+    stop_timer
+
+    # Save state
+    echo "$(($(date +%s) + seconds)) $label" > "$STATE_FILE"
+
+    # Background countdown loop
+    (
+        end_time=$(($(date +%s) + seconds))
+        while [ "$(date +%s)" -lt "$end_time" ]; do
+            sleep 0.5
+            # Wake waybar module
+            pkill -RTMIN+9 waybar 2>/dev/null
+        done
+        # Timer finished — send notification
+        notify-send "🍅 Pomodoro" "$label timer done!" -u normal 2>/dev/null
+        rm -f "$STATE_FILE" "$PID_FILE"
+        pkill -RTMIN+9 waybar 2>/dev/null
+    ) &
+
+    echo $! > "$PID_FILE"
+    pkill -RTMIN+9 waybar 2>/dev/null
 }
 
-load_state() {
-    if [[ -f "$STATE_FILE" ]]; then
-        read -r END_TIME TOTAL_MINS LABEL < "$STATE_FILE"
-    else
-        END_TIME=0; TOTAL_MINS=0; LABEL=""
+stop_timer() {
+    if [ -f "$PID_FILE" ]; then
+        kill "$(cat "$PID_FILE")" 2>/dev/null
+        rm -f "$PID_FILE"
     fi
-}
-
-clear_state() {
     rm -f "$STATE_FILE"
+    pkill -RTMIN+9 waybar 2>/dev/null
 }
 
-notify() {
-    command -v notify-send &>/dev/null && \
-        notify-send -u normal -i "⏰" "Pomodoro" "$1"
-}
-
-# ── commands ────────────────────────────────────────────────────
-cmd_start() {
-    local mins="${1:-25}"
-    local end=$(( $(now) + mins * 60 ))
-    local label
-    case "$mins" in
-        30)  label="30 min" ;;
-        60)  label="1 hour" ;;
-        120) label="2 hours" ;;
-        *)   label="${mins} min" ;;
-    esac
-    save_state "$end" "$mins" "$label"
-    notify "Started: $label focus session 🍅"
-}
-
-cmd_stop() {
-    clear_state
-    notify "Pomodoro stopped."
-}
-
-cmd_status() {
-    load_state
-    local n
-    n=$(now)
-
-    if [[ "$END_TIME" -eq 0 || "$n" -ge "$END_TIME" ]]; then
-        # Timer done or not running
-        if [[ "$END_TIME" -gt 0 && "$n" -ge "$END_TIME" ]]; then
-            # Was running, just finished — fire notification once then clear
-            notify "🎉 Pomodoro done! Take a break."
-            clear_state
-            echo '{"text":"🍅 Done!","tooltip":"Session complete — take a break!","class":"done"}'
-        else
-            echo '{"text":"🍅","tooltip":"No active session\nClick to start 25 min","class":"idle"}'
-        fi
+get_status() {
+    if [ ! -f "$STATE_FILE" ]; then
+        echo '{"text":"🍅","tooltip":"Click to start Pomodoro","class":"idle"}'
         return
     fi
 
-    local remaining=$(( END_TIME - n ))
-    local mins=$(( remaining / 60 ))
-    local secs=$(( remaining % 60 ))
-    local total_secs=$(( TOTAL_MINS * 60 ))
-    local elapsed=$(( total_secs - remaining ))
-    local pct=$(( elapsed * 100 / total_secs ))
+    read -r end_time label < "$STATE_FILE"
+    now=$(date +%s)
+    remaining=$((end_time - now))
 
-    # Progress bar (10 chars)
-    local filled=$(( pct / 10 ))
-    local bar=""
-    for (( i=0; i<10; i++ )); do
-        if (( i < filled )); then bar+="█"; else bar+="░"; fi
-    done
-
-    local display
-    if (( mins > 0 )); then
-        display=$(printf "🍅 %d:%02d" "$mins" "$secs")
-    else
-        display=$(printf "🍅 0:%02d" "$secs")
+    if [ "$remaining" -le 0 ]; then
+        rm -f "$STATE_FILE"
+        echo '{"text":"🍅","tooltip":"No timer running","class":"idle"}'
+        return
     fi
 
-    local tooltip
-    tooltip=$(printf "Focus: %s\n%s %d%%\n%d min remaining" \
-        "$LABEL" "$bar" "$pct" "$(( remaining / 60 + 1 ))")
+    mins=$((remaining / 60))
+    secs=$((remaining % 60))
+    time_str=$(printf "%d:%02d" "$mins" "$secs")
 
-    # Urgency class
-    local class="running"
-    (( remaining <= 300 )) && class="urgent"   # last 5 min
-    (( remaining <= 60  )) && class="critical"  # last 1 min
-
-    printf '{"text":"%s","tooltip":"%s","class":"%s","percentage":%d}\n' \
-        "$display" "$tooltip" "$class" "$pct"
+    echo "{\"text\":\"🍅 ${time_str}\",\"tooltip\":\"${label} — ${time_str} left\",\"class\":\"running\"}"
 }
 
-cmd_menu() {
-    # Rofi/wofi menu to pick duration
-    local choice
-    choice=$(printf "30 min\n1 hour\n2 hours\nStop" | \
-        rofi -dmenu -p "🍅 Pomodoro" -theme-str 'window {width: 200px;}' 2>/dev/null \
-        || printf "30 min\n1 hour\n2 hours\nStop" | \
-        wofi --dmenu --prompt "🍅 Pomodoro" 2>/dev/null)
-
-    case "$choice" in
-        "30 min")  cmd_start 30  ;;
-        "1 hour")  cmd_start 60  ;;
-        "2 hours") cmd_start 120 ;;
-        "Stop")    cmd_stop      ;;
-    esac
-}
-
-# ── dispatch ────────────────────────────────────────────────────
-case "${1:-status}" in
-    status)       cmd_status ;;
-    start)        cmd_start "${2:-25}" ;;
-    stop)         cmd_stop ;;
-    menu)         cmd_menu ;;
-    toggle)
-        load_state
-        if [[ "$END_TIME" -gt 0 && "$(now)" -lt "$END_TIME" ]]; then
-            cmd_stop
-        else
-            cmd_menu
-        fi
+case "$1" in
+    start)
+        # Show rofi menu
+        choice=$(printf "⏲️ 30 min\n⏳ 1 hour\n🕒 2 hours\n🛑 Stop" | rofi -dmenu -p "🍅 Pomodoro" -theme-str '
+            window { width: 250px; 
+                    location: northwest; 
+                    x-offset: 225px; 
+                    transparency: "background";
+                    border-radius: 50px;
+                    }
+            listview {
+                lines: 2;
+                columns: 1;
+                cycle: true;
+                spacing: 0px;
+            }
+            element-icon {
+                size: 0px; margin: 0px; padding: 0px; border: 0px; spacing: 0px;
+            }
+            element-text {
+                spacing: 0px; highlight: "bold";
+                font: "Fira Code 20";
+            }
+            inputbar {
+                enabled: false;
+            }
+            element {
+                padding: 0px 0 10px 0;
+            }
+        ')
+        case "$choice" in
+            "⏲️ 30 min")  start_timer 1800  "30 min" ;;
+            "⏳ 1 hour")  start_timer 3600  "1 hour" ;;
+            "🕒 2 hours") start_timer 7200  "2 hours" ;;
+            "🛑 Stop")    stop_timer ;;
+        esac
         ;;
-    *)
-        echo "Usage: $0 {status|start <mins>|stop|menu|toggle}" >&2
-        exit 1
+    status)
+        get_status
+        ;;
+    stop)
+        stop_timer
         ;;
 esac
