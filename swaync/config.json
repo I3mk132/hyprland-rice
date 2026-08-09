@@ -103,11 +103,11 @@
         },
         {
           "label": " ",
-          "command": "swaync-client -t -sw; ~/.config/rofi/launchers/wifi.sh" 
+          "command": "swaync-client -t -sw; kitty -e nmtui" 
         },
         {
           "label": "󰂯",
-          "command": "swaync-client -t -sw; ~/.config/rofi/launchers/rofi-bluetooth"
+          "command": "swaync-client -t -sw; blueman-manager"
         },
         {
           "label": "󰏘",
@@ -116,15 +116,15 @@
 
         {
           "label": "󰋩",
-          "command": "swaync-client -t -sw; ~/.config/rofi/launchers/wall-changer.sh"
+          "command": "swaync-client -t -sw; /home/i3mk/.local/bin/walset"
         },
         {     
           "label": " ",
-          "command": "swaync-client -t -sw; ~/.config/rofi/launchers/screenshot.sh"
+          "command": "swaync-client -t -sw; hyprshot -m output"
         },
         {
           "label": "",
-          "command": "swaync-client -t -sw; ~/.config/rofi/launchers/powermenu.sh"
+          "command": "swaync-client -t -sw; wlogout -b 5 -H 100"
         }
 
       ]
