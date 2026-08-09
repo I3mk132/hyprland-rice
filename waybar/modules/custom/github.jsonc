@@ -1,6 +1,6 @@
 {
     "custom/github": {
-        "format": "  {}",
+        "format": " {}",
         "tooltip-format": "Notifications GitHub",
         "return-type": "json",
         "interval": 60,

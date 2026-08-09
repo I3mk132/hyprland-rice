@@ -1,3 +1,8 @@
 {
-    
+    "custom/salah": {
+    "exec": "~/.config/waybar/scripts/salah.py",
+    "return-type": "json",
+    "interval": 60, // Update every minute to check if the next prayer changed
+    "format": "{}"
+}
 }

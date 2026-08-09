@@ -16,9 +16,10 @@
 
     "modules-left": [
 		"clock",
+		"custom/warp",
 		"network",
 		"bluetooth",
-		//"custom/salah",
+		"custom/salah",
 		"custom/pomodoro"
 		
 	],

@@ -71,9 +71,9 @@ case "$1" in
         choice=$(printf "⏲️ 30 min\n⏳ 1 hour\n🕒 2 hours\n🛑 Stop" | rofi -dmenu -p "🍅 Pomodoro" -theme-str '
             window { width: 250px; 
                     location: northwest; 
-                    x-offset: 225px; 
+                    x-offset: 460px; 
                     transparency: "background";
-                    border-radius: 50px;
+                    border-radius: 30px;
                     }
             listview {
                 lines: 2;
@@ -93,6 +93,7 @@ case "$1" in
             }
             element {
                 padding: 0px 0 10px 0;
+                border-radius: 30px;
             }
         ')
         case "$choice" in
