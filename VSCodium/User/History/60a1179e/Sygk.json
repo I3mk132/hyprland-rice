@@ -1,0 +1,8 @@
+{
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.statusBar.visible": false,
+  "window.titleBarStyle": "native",
+  "window.customTitleBarVisibility": "never",
+  "window.customMenuBarAltFocus": false,
+  "window.menuBarVisibility": "hidden"
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dijivoo — Dijital Dünyaya Açılan Kapınız</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Kufi+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Loader -->
+<div id="loader">
+  <img class="loader-logo" src="img/cyan_border_logo_down_transparent.png" alt="Dijivoo"/>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <div class="loader-text" data-tr="Yükleniyor..." data-ar="جاري التحميل..." data-en="Loading...">Yükleniyor...</div>
+</div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- BG Canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#hero"><img class="nav-logo" src="img/cyan_border_logo_right_transparent.png" alt="Dijivoo"/></a>
+  <ul class="nav-links">
+    <li><a href="#hero" data-tr="Ana Sayfa" data-ar="الرئيسية" data-en="Home">Ana Sayfa</a></li>
+    <li><a href="#services" data-tr="Hizmetler" data-ar="خدماتنا" data-en="Services">Hizmetler</a></li>
+    <li><a href="#works" data-tr="Çalışmalar" data-ar="أعمالنا" data-en="Works">Çalışmalar</a></li>
+    <li><a href="#contact" data-tr="İletişim" data-ar="تواصل معنا" data-en="Contact">İletişim</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="tr">TR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hero" data-tr="Ana Sayfa" data-ar="الرئيسية" data-en="Home">Ana Sayfa</a>
+  <a href="#services" data-tr="Hizmetler" data-ar="خدماتنا" data-en="Services">Hizmetler</a>
+  <a href="#works" data-tr="Çalışmalar" data-ar="أعمالنا" data-en="Works">Çalışmalar</a>
+  <a href="#contact" data-tr="İletişim" data-ar="تواصل معنا" data-en="Contact">İletişim</a>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ====== HERO ====== -->
+<section id="hero">
+  <div class="hero-eyebrow">
+    <span class="dot"></span>
+    <span data-tr="Dijital Dönüşüm Ajansı" data-ar="وكالة التحول الرقمي" data-en="Digital Transformation Agency">Dijital Dönüşüm Ajansı</span>
+  </div>
+  <h1 class="hero-title">
+    <span data-tr="Dijital Dünyaya" data-ar="افتح أبوابك" data-en="Open Your Doors">Dijital Dünyaya</span><br/>
+    <span class="accent" data-tr="Açılan Kapınız" data-ar="للعالم الرقمي" data-en="To the Digital World">Açılan Kapınız</span>
+  </h1>
+  <p class="hero-desc" data-tr="İşletmenizi dijital dünyada güçlü bir şekilde konumlandırıyoruz. Web siteleri, yönetim sistemleri, dijital menüler ve çok daha fazlasıyla markanızı büyütüyoruz." data-ar="نضع عملك في مكانة قوية في العالم الرقمي. ننمّي علامتك التجارية بمواقع الويب وأنظمة الإدارة والقوائم الرقمية وأكثر بكثير." data-en="We position your business powerfully in the digital world. We grow your brand with websites, management systems, digital menus and much more.">
+    İşletmenizi dijital dünyada güçlü bir şekilde konumlandırıyoruz. Web siteleri, yönetim sistemleri, dijital menüler ve çok daha fazlasıyla markanızı büyütüyoruz.
+  </p>
+  <div class="hero-cta">
+    <a href="#services" class="btn-primary"><span data-tr="Hizmetlerimizi Keşfet" data-ar="اكتشف خدماتنا" data-en="Explore Services">Hizmetlerimizi Keşfet</span></a>
+    <a href="#works" class="btn-ghost" data-tr="Çalışmalarımız" data-ar="أعمالنا" data-en="Our Works">Çalışmalarımız</a>
+  </div>
+  <div class="scroll-hint">
+    <span data-tr="Kaydır" data-ar="اسحب للأسفل" data-en="Scroll">Kaydır</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ====== SERVICES ====== -->
+<section id="services">
+  <div class="big-num" style="top:-40px;left:-20px;">01</div>
+  <div class="services-header reveal">
+    <div class="section-label" data-tr="Ne Yapıyoruz" data-ar="ماذا نفعل" data-en="What We Do">Ne Yapıyoruz</div>
+    <h2 class="section-title"><span data-tr="Hizmetlerimiz" data-ar="خدماتنا" data-en="Our Services">Hizmetlerimiz</span></h2>
+    <p class="section-sub" data-tr="İşletmenizin ihtiyaçlarına özel, kapsamlı dijital çözümler sunuyoruz." data-ar="نقدم حلولاً رقمية شاملة ومخصصة لاحتياجات عملك." data-en="We offer comprehensive digital solutions tailored to your business needs.">
+      İşletmenizin ihtiyaçlarına özel, kapsamlı dijital çözümler sunuyoruz.
+    </p>
+  </div>
+
+  <!-- ===== SERVICES DATA — EASY TO EDIT ===== -->
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ====== WORKS ====== -->
+<section id="works">
+  <div class="big-num" style="top:-40px;right:-20px;">02</div>
+  <div class="works-header reveal">
+    <div class="section-label" data-tr="Portföy" data-ar="معرض الأعمال" data-en="Portfolio">Portföy</div>
+    <h2 class="section-title"><span data-tr="Çalışmalarımız" data-ar="أعمالنا" data-en="Our Works">Çalışmalarımız</span></h2>
+    <p class="section-sub" data-tr="Müşterilerimiz için hayata geçirdiğimiz projelerden seçkiler." data-ar="مختارات من المشاريع التي نفذناها لعملائنا." data-en="Selections from the projects we have realized for our clients.">
+      Müşterilerimiz için hayata geçirdiğimiz projelerden seçkiler.
+    </p>
+  </div>
+  <div class="works-grid" id="worksGrid"></div>
+</section>
+
+<!-- Work Modal -->
+<div class="modal-overlay" id="workModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div style="clear:both"></div>
+    <img class="modal-img" id="modalImg" src="" alt=""/>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+    <div class="modal-links" id="modalLinks"></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ====== CONTACT ====== -->
+<section id="contact">
+  <div class="big-num" style="bottom:-60px;left:-20px;">03</div>
+  <div class="reveal">
+    <div class="section-label" data-tr="Bize Ulaşın" data-ar="تواصل معنا" data-en="Get In Touch">Bize Ulaşın</div>
+    <h2 class="section-title"><span data-tr="İletişim" data-ar="اتصل بنا" data-en="Contact">İletişim</span></h2>
+    <p class="section-sub" data-tr="Projenizi konuşmak için bizi dilediğiniz kanaldan ulaşabilirsiniz." data-ar="يمكنك التواصل معنا عبر أي قناة لمناقشة مشروعك." data-en="Reach us through any channel to discuss your project.">
+      Projenizi konuşmak için bizi dilediğiniz kanaldan ulaşabilirsiniz.
+    </p>
+  </div>
+  <div class="contact-grid">
+    <div id="contactItems" class="reveal delay-2"></div>
+    <div id="socialItems" class="reveal delay-3"></div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="footer-copy">
+    <span>© 2025 Dijivoo.</span>
+    <span data-tr=" Tüm hakları saklıdır." data-ar=" جميع الحقوق محفوظة." data-en=" All rights reserved."> Tüm hakları saklıdır.</span>
+  </div>
+  <div class="footer-lang lang-switcher">
+    <button class="lang-btn active" data-lang="tr">TR</button>
+    <button class="lang-btn" data-lang="ar">AR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

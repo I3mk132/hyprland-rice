@@ -1,0 +1,15 @@
+# --- Database ---
+DATABASE_URL=postgresql://ammar:123123123@localhost:5432/menu
+
+# --- Admin login (change these before giving the app to a client) ---
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+
+# --- Security ---
+# Generate a real secret with: openssl rand -hex 32
+SECRET_KEY=change-this-to-a-long-random-string
+ACCESS_TOKEN_EXPIRE_MINUTES=720
+
+# --- CORS ---
+# Comma separated list of allowed frontend origins
+CORS_ORIGINS=http://localhost:5173,http://localhost:3000

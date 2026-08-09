@@ -1,0 +1,10 @@
+{
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.statusBar.visible": false,
+  "window.titleBarStyle": "native",
+  "window.customTitleBarVisibility": "never",
+  "window.customMenuBarAltFocus": false,
+  "window.menuBarVisibility": "hidden",
+  "window.enableMenuBarMnemonics": false,
+  "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', monospace"
+}

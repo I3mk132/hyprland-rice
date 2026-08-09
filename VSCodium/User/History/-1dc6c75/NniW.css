@@ -1,0 +1,344 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "Fira Code", FontAwesome;
+    font-weight: bold;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(0, 0, 0, 0);
+    background: transparent;
+    color: @on_background;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+tooltip {
+    background: alpha(@surface_container, 0.85);
+    border-radius: 18px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: @outline_variant;
+}
+
+
+#workspaces {
+    background: alpha(@surface_container, 0.65);
+    margin: 5px 5px 5px 5px;
+    padding: 6px 5px;
+    border-radius: 18px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    border: 0.5px solid @outline_variant;
+}
+
+#workspaces button {
+    padding: 0px 5px;
+    margin: 0px 3px;
+    border-radius: 16px;
+    color: @on_surface_variant;
+    background-color: @surface_container_high;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.empty {
+    opacity: 0.4;
+}
+
+#workspaces button.active {
+    color: @on_primary;
+    background: linear-gradient(135deg, @primary, @secondary);
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.urgent {
+    background-color: @error;
+    color: @on_error;
+    padding: 0 0 0 5px;
+    border-radius: 16px;
+    min-width: 40px;
+    background-size: 300% 300%;
+}
+
+#workspaces button:hover {
+    background-color: @primary_container;
+    color: @on_primary_container;
+    border-radius: 16px;
+    min-width: 50px;
+    background-size: 400% 400%;
+}
+
+#clock,
+#custom-warp,
+#network,
+#bluetooth,
+#custom-salah,
+#custom-pomodoro,
+#window,
+#custom-rofi,
+#custom-power_btn,
+#custom-lock_screen,
+#custom-wol,
+#custom-tailscale,
+#custom-updates,
+#custom-github,
+#custom-media,
+#power-profiles-daemon,
+#temperature,
+#battery,
+#backlight,
+#custom-weather,
+#custom-wl-gammarelay-temperature,
+#pulseaudio,
+#tray,
+#custom-swaync {
+    background-color: @surface_container;
+    margin: 0 0 0 0;
+    padding: 0px 10px 0px 10px;
+    border-radius: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+
+
+
+/* LEFT MODULES */
+
+
+#clock {
+    color: @tertiary;          /* warm accent — maps well to orange role */
+    margin-left: 10px;
+}
+
+#custom-warp {
+    color: @error;
+    margin-left: 5px;
+    border-radius: 18px 0px 0px 18px;
+}
+
+#network {
+    border-radius: 0px 0px 0px 0px;
+    color: @secondary;         /* muted accent — maps to yellow role */
+}
+
+#network.disabled {
+    color: @on_surface_variant;
+}
+
+#bluetooth {
+    border-radius: 0 18px 18px 0px;
+    color: @primary;           /* primary brand color — maps to blue role */
+}
+
+#custom-salah {
+    border-radius: 18px 0px 0px 18px;
+    color: @tertiary;
+    margin-left: 5px;
+}
+/* Pomodoro Waybar Module */
+
+#custom-pomodoro {
+    border-radius: 0 18px 18px 0;
+    transition: all 0.3s ease;
+}
+
+#custom-pomodoro.idle {
+    color: @on_surface_variant;
+}
+
+#custom-pomodoro.idle:hover {
+    color: @on_surface;
+}
+
+#custom-pomodoro.running {
+    color: @error;             /* error red — maps to red role */
+    font-weight: bold;
+}
+
+
+#window {
+    background: @primary;
+    color: @on_primary;
+    border-radius: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+window#waybar.empty #window {
+    background-color: transparent;
+}
+
+
+
+/* CENTER MODULES */
+
+
+#custom-rofi {
+    opacity: 0.6;
+}
+
+#custom-power_btn {
+    color: @tertiary_container;
+    border-radius: 18px 0px 0px 18px;
+}
+
+#custom-lock_screen {
+    color: @tertiary_container;
+    border-radius: 0px 0px 0px 0px;
+}
+
+#custom-tailscale,
+#custom-wol {
+    border-radius: 0px 0px 0px 0px;
+}
+
+#custom-tailscale.green,
+#custom-wol.green {
+    color: @primary;           /* use primary as "good/connected" green */
+}
+
+#custom-tailscale.red,
+#custom-wol.red {
+    color: @error;
+}
+
+#custom-wol.orange {
+    color: @tertiary;
+}
+
+
+#custom-updates.green {
+    color: @primary;
+}
+
+#custom-updates.yellow {
+    color: @secondary;
+}
+
+#custom-updates.red {
+    color: @error;
+}
+
+#custom-github {
+    border-radius: 0px 18px 18px 0px;
+}
+
+#custom-github.green {
+    color: @primary;
+}
+
+#custom-github.yellow {
+    color: @secondary;
+}
+
+#custom-github.red {
+    color: @error;
+}
+
+
+
+/* RIGHT MODULES */
+
+
+#custom-media {
+    padding-right: 15px;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+#custom-media.custom-spotify {
+    color: @primary_fixed;     /* a bright, fixed primary hue — maps to aqua role */
+}
+
+#temperature {
+    color: @secondary_fixed;   /* a fixed secondary hue — cool tone */
+    border-radius: 18px 0px 0px 18px;
+}
+
+#temperature.critical {
+    color: @error;
+}
+
+#battery {
+    border-radius: 0px 18px 18px 0px;
+    padding: 0px 8px 0px 7px;
+    color: @primary;           /* primary for healthy battery */
+    margin-right: 5px;
+}
+
+#battery.warning {
+    color: @secondary;
+}
+
+#battery.critical {
+    color: @error;
+}
+
+#custom-weather {
+    margin-right: 5px;
+}
+
+#power-profiles-daemon {
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 7px;
+}
+
+#power-profiles-daemon.power-saver {
+    color: @primary;           /* green role → primary */
+}
+
+#power-profiles-daemon.balanced {
+    color: @primary_fixed;     /* aqua role → primary_fixed */
+}
+
+#power-profiles-daemon.performance {
+    color: @secondary;         /* yellow role → secondary */
+}
+
+#custom-wl-gammarelay-temperature {
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 7px;
+    color: @tertiary;          /* warm/orange role → tertiary */
+}
+
+#backlight {
+    border-radius: 0px 18px 18px 0px;
+    margin-right: 5px;
+}
+
+#pulseaudio {
+    border-radius: 18px 0 0 18px;
+    color: @primary;           /* blue role → primary */
+}
+
+#pulseaudio.microphone {
+    border-radius: 0 18px 18px 0;
+    color: @tertiary;          /* purple role → tertiary */
+    margin-right: 5px;
+}
+
+#tray {
+    border-radius: 18px 0 0 18px;
+}
+
+#custom-swaync {
+    border-radius: 0px 18px 18px 0px;
+    margin-right: 10px;
+}
+
+#custom-updates {
+    border-radius: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 7px;
+}

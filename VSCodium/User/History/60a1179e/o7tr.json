@@ -1,0 +1,23 @@
+{
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.statusBar.visible": false,
+  "window.titleBarStyle": "native",
+  "window.customTitleBarVisibility": "never",
+  "window.customMenuBarAltFocus": false,
+  "window.menuBarVisibility": "hidden",
+  "window.enableMenuBarMnemonics": false,
+  "editor.fontFamily": "'GeistMono Nerd Font Propo', 'Fira Code', 'Droid Sans Mono', monospace",
+  "editor.fontLigatures": false,
+  "editor.padding.top": 20,
+  "editor.padding.bottom": 20,
+  "editor.smoothScrolling": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "workbench.list.smoothScrolling": true,
+  "terminal.integrated.smoothScrolling": true,
+  "editor.cursorBlinking": "smooth",
+
+
+  "vscode_custom_css.imports": [
+	"file:///home/i3mk/.config/VSCodium/vscodium_scripts/cursor.js"
+],
+}

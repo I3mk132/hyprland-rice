@@ -1,0 +1,12 @@
+file:///home/i3mk/Cprojects/final/main.c {"mtime":1781785666161,"ctime":1781769733570,"size":268,"etag":"3g8e3m6818k","orphaned":false,"typeId":""}
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    char* matrix = (char*)calloc(10, sizeof(char));
+    matrix[0] = 'a';
+    matrix[1] = 'b';
+    (char*) realloc (&matrix[0], 10);
+
+
+}

@@ -1,0 +1,5 @@
+# Used only for local development (npm run dev).
+# When running via docker-compose, this is left empty at build time because
+# nginx proxies /api and /static to the backend on the same origin —
+# see frontend/nginx.conf and docker-compose.yml.
+VITE_API_URL=https://restaurantmenu-production-d0ff.up.railway.app/

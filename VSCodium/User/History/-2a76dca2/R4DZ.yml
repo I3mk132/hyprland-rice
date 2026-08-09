@@ -1,0 +1,100 @@
+# ============================================================
+# Clinic Booking System - Backend stack (Portainer-ready)
+#
+# Deploy from Portainer (recommended):
+#   Stacks -> Add stack -> Repository
+#     Repository URL : https://github.com/I3mk132/ClinicSystem
+#     Compose path   : backend/docker-compose.yml
+#   Then fill in the environment variables (SECRET_KEY etc.) and deploy.
+#
+# Or from a shell on the VPS (inside the uploaded backend/ folder):
+#   docker compose up -d --build
+# ============================================================
+
+services:
+  clinic-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: clinic-backend:latest
+    container_name: clinic-api
+    restart: unless-stopped
+    ports:
+      # host:container - change the left side if 8000 is taken on the VPS,
+      # or remove "ports" entirely and attach a reverse proxy network instead.
+      - "8001:8000"
+    environment:
+      ENVIRONMENT: production
+      APP_NAME: "Clinic Booking System"
+
+      # REQUIRED - the container refuses to start in production with the
+      # default secret. Generate one:
+      #   python -c "import secrets; print(secrets.token_hex(32))"
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in the stack environment}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-1440}
+
+      # Managed Postgres on Neon. Paste the Neon connection string into the
+      # DATABASE_URL stack variable, but change the scheme to the SQLAlchemy
+      # form and keep SSL:
+      #   postgresql+psycopg2://USER:PASSWORD@ep-xxx-pooler.REGION.aws.neon.tech/DBNAME?sslmode=require
+      # Use Neon's *pooled* host (the one with "-pooler") for a web app.
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL to your Neon connection string}
+
+      # Comma-separated list of origins allowed to call the API - set this to
+      # wherever the frontend is served from (scheme + host, no trailing slash).
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5500,http://127.0.0.1:5500}
+
+      # First admin account (created on first start; change after first login)
+      FIRST_ADMIN_EMAIL: ${FIRST_ADMIN_EMAIL:-admin@myclinic.com}
+      FIRST_ADMIN_PASSWORD: ${FIRST_ADMIN_PASSWORD:?Set FIRST_ADMIN_PASSWORD in the stack environment}
+      FIRST_ADMIN_NAME: ${FIRST_ADMIN_NAME:-Clinic Administrator}
+
+      # Fresh production DB starts empty (no demo doctors/departments)
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-false}
+
+      # Clinic's local timezone - slot availability ("today", "past times")
+      # is computed in this zone. e.g. Europe/Istanbul, Asia/Riyadh, Asia/Damascus
+      TZ: ${TZ:-Europe/Istanbul}
+
+      # OTP delivery. Defaults to "console" (codes appear in container logs -
+      # view in Portainer -> container -> Logs). For real email set
+      # EMAIL_PROVIDER=smtp and the SMTP_* values.
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-console}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+      EMAIL_FROM_ADDRESS: ${EMAIL_FROM_ADDRESS:-no-reply@myclinic.com}
+      EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-Clinic Booking System}
+      SMS_PROVIDER: ${SMS_PROVIDER:-console}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+      TWILIO_FROM_NUMBER: ${TWILIO_FROM_NUMBER:-}
+
+      # Cloudflare R2 media storage (Session 4). Leave blank to disable image
+      # uploads (the /admin/media endpoints then return 503). See CLAUDE.md
+      # deployment notes for creating the bucket + an R2 API token and binding
+      # a public read URL. R2_PUBLIC_BASE_URL is the public bucket/custom-domain
+      # base (no trailing slash); the object URL is that + "/" + object key.
+      R2_ACCOUNT_ID: ${R2_ACCOUNT_ID:-}
+      R2_ACCESS_KEY_ID: ${R2_ACCESS_KEY_ID:-}
+      R2_SECRET_ACCESS_KEY: ${R2_SECRET_ACCESS_KEY:-}
+      R2_BUCKET: ${R2_BUCKET:-}
+      R2_PUBLIC_BASE_URL: ${R2_PUBLIC_BASE_URL:-}
+      MEDIA_MAX_BYTES: ${MEDIA_MAX_BYTES:-5242880}
+    volumes:
+      - clinic_data:/data
+    # DB is Neon (managed, external) - no local db service to wait on.
+    networks:
+      - default
+      - cf-tunnel-net
+
+  
+
+volumes:
+  clinic_data:
+
+networks:
+  cf-tunnel-net:
+    external: true

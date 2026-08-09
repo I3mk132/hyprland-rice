@@ -1,0 +1,15 @@
+# --- Database ---
+DATABASE_URL=postgresql://ammar:123123123@localhost:5432/menu
+
+# --- Admin login (change these before giving the app to a client) ---
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+
+# --- Security ---
+# Generate a real secret with: openssl rand -hex 32
+SECRET_KEY=58e9ea7a0b63487d68763c5b6c0258f732a4bf8478ac5380d47d6c3e59743eb6
+ACCESS_TOKEN_EXPIRE_MINUTES=720
+
+# --- CORS ---
+# Comma separated list of allowed frontend origins
+CORS_ORIGINS=http://localhost:5173,http://localhost:3000,https://menu.dijivoo.com/
