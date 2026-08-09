@@ -40,7 +40,7 @@ def get_weather():
             tooltip += f"  🌅 {day['astronomy'][0]['sunrise']}  🌇 {day['astronomy'][0]['sunset']}\n"
 
         out = {
-            "text": f"{icon}  {temp}°C",
+            "text": f"{icon} {temp}°C",
             "tooltip": tooltip.strip()
         }
         print(json.dumps(out))

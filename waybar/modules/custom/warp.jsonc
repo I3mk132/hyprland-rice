@@ -1,0 +1,10 @@
+{
+    "custom/warp": {
+        "format": "{}",
+        "return-type": "json",
+        "interval": 2, // Polls every 5 seconds as a fallback
+        "exec": "~/.config/waybar/scripts/warp.sh",
+        "on-click": "~/.config/waybar/scripts/warp.sh toggle",
+        "signal": 4 // Allows immediate updates via pkill -SIGRTMIN+4 waybar
+    }
+}

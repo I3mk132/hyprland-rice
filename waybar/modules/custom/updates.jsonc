@@ -1,6 +1,6 @@
 {
     "custom/updates": {
-        "format": "  {}",
+        "format": " {}",
         //"format": " {}",
         // "tooltip-format": "Aggiorna il Sistema\n<small>Pacchetti: {}</small>",
         "escape": false,
