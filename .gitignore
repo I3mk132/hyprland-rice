@@ -25,3 +25,6 @@ VSCodium/User/*
 # Runtime leftovers
 __pycache__/
 *.pyc
+
+# Old unused Waybar config
+waybar/scriptssss/

@@ -51,12 +51,7 @@ link bin/walset         "$HOME/.local/bin/walset"
 link bin/walset-backend "$HOME/.local/bin/walset-backend"
 link .zshrc             "$HOME/.zshrc"
 
-# nvim is a submodule: it is empty unless the repo was cloned with --recursive.
-if [[ -e "$REPO/nvim/init.lua" ]]; then
-  link nvim "$HOME/.config/nvim"
-else
-  echo "skip    nvim (run: git submodule update --init)"
-fi
+link nvim "$HOME/.config/nvim"
 
 if [[ -d "$BACKUP" ]]; then
   echo "Previous files saved in $BACKUP"
