@@ -116,7 +116,7 @@
 
         {
           "label": "󰋩",
-          "command": "swaync-client -t -sw; /home/i3mk/.local/bin/walset"
+          "command": "swaync-client -t -sw; ~/.local/bin/walset"
         },
         {     
           "label": " ",

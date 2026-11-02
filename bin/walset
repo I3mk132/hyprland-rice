@@ -1,0 +1,17 @@
+#!/bin/bash
+
+WALL_DIR="$HOME/.config/backgrounds"
+
+CWD="$(pwd)"
+
+cd "$WALL_DIR" || exit 1
+
+IFS=$'\n'
+
+SELECTED_WALL=$(for a in *.jpg *.png *.gif *.jpeg; do echo -en "$a\0icon\x1f$a\n"; done | rofi -dmenu -p "")
+notify-send "SELECTED_WALL"
+if [ -n "$SELECTED_WALL" ]; then
+  "$(dirname "$(readlink -f "$0")")/walset-backend" "$SELECTED_WALL"
+fi
+
+cd "$CWD" || exit

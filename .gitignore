@@ -1,1 +1,27 @@
-VSCodium/User/globalStorage/
+# Secrets. Never commit these.
+.env
+.env.*
+.secrets/
+*.token
+
+# Personal scripts and their debug output
+waybar/scripts/obs.py
+waybar/scripts/*screenshot*.png
+waybar/scripts/full_page.png
+waybar/scripts/captcha.png
+
+# VSCodium: this directory is the live app data (caches, cookies, edit history).
+# Only hand-written config is tracked.
+VSCodium/*
+!VSCodium/matugen-theme.json
+!VSCodium/vscodium_scripts/
+!VSCodium/User/
+VSCodium/User/*
+!VSCodium/User/settings.json
+
+# Installed separately, see install.sh
+.oh-my-zsh/
+
+# Runtime leftovers
+__pycache__/
+*.pyc

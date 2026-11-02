@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# CHECK IF USER PROVIDED AN ARGUMENT
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <path_to_image>"
+  exit 1
+fi
+
+IMAGE="$1"
+
+# Send notification to the user
+notify-send "Changing Theme" "Applying new wallpaper and updating colors, please wait unitl confirmation..."
+
+# Set wallpaper
+awww img "$IMAGE" --transition-type="center" --transition-step=1 --transition-fps="120"
+
+# Generate pywal colors
+wal -i "$IMAGE" -n -s -t -e --saturate 0.7
+
+# Make nvim use pywal colors
+[ -f "$HOME/.config/nvim/pywal/chadwal.py" ] && python3 "$HOME/.config/nvim/pywal/chadwal.py"
+
+# Use Matugen to generate Material you colors
+matugen image "$IMAGE" --source-color-index 1
+
+# Refresh Kitty
+kill -SIGUSR1 $(pgrep -x kitty) 2>/dev/null
+
+# Refresh waybar
+#pkill waybar
+#waybar >/dev/null 2>&1 &
+pkill -SIGUSR2 waybar
+
+# Refresh swaync
+pkill swaync
+swaync >/dev/null 2>&1 &
+
+# Refresh VSCodium with new pywal colors
+
+notify-send "Theme Applied" "Wallpaper and theme updated successfully!"
